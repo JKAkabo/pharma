@@ -1,5 +1,5 @@
 # Byte-compiled / optimized / DLL files
-*__pycache__/*
+*__pycache__/
 *.py[cod]
 *$py.class
 
@@ -121,7 +121,6 @@ dmypy.json
 *.rdb
 
 # editor stuff
-.vscode
-.idea/*
-pharma/__pycache__/settings.cpython-36.pyc
+.vscode/
+.idea/
 
