@@ -15,9 +15,16 @@ class Pharmacy(models.Model):
         return self.name
 
 
+class Branch(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    pharmacy = models.ForeignKey(Pharmacy, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+    gps_location = models.CharField(max_length=11, null=True)
+
+
 class Staff(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     phone = models.CharField(max_length=9)
 
-    pharmacy = models.ForeignKey(Pharmacy, on_delete=models.CASCADE)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
 
