@@ -123,3 +123,5 @@ dmypy.json
 # editor stuff
 .vscode
 .idea/*
+pharma/__pycache__/settings.cpython-36.pyc
+
