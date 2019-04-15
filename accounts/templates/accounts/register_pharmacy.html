@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'accounts/base.html' %}
 
-</body>
-</html>
+{% block main %}
+<form action="" method="post">
+    {% csrf_token %}
+    <h1>Pharmacy Details</h1>
+    {% for field in pharmacy_registration_form %}
+        {{ field.label_tag }}
+        {{ field }}
+    {%  endfor %}
+
+    <h1>Branch Details</h1>
+    {% for field in branch_registration_form %}
+        {{ field.label_tag }}
+        {{ field }}
+    {% endfor %}
+
+    <h1>Manager Details</h1>
+    {% for field in staff_registration_form %}
+        {{ field.label_tag }}
+        {{ field }}
+    {% endfor %}
+    <button type="submit">Create</button>
+</form>
+{% endblock %}

@@ -124,3 +124,4 @@ STATIC_URL = '/static/'
 
 
 AUTH_USER_MODEL = 'accounts.Staff'
+LOGIN_URL = 'signin/'
