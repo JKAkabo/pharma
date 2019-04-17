@@ -10,6 +10,15 @@ class PharmacyRegistrationForm(forms.ModelForm):
             'name',
             'email',
         )
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'au-input au-input--full',
+                'autocomplete': 'off',
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'au-input au-input--full',
+            }),
+        }
 
 
 class BranchRegistrationForm(forms.ModelForm):
@@ -18,6 +27,12 @@ class BranchRegistrationForm(forms.ModelForm):
         fields = (
             'name',
         )
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'au-input au-input--full',
+                'autocomplete': 'off',
+            }),
+        }
 
 
 class StaffRegistrationForm(forms.ModelForm):
@@ -30,6 +45,26 @@ class StaffRegistrationForm(forms.ModelForm):
             'email',
             'password',
         )
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'class': 'au-input au-input--full',
+                'autocomplete': 'off',
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'au-input au-input--full',
+                'autocomplete': 'off',
+            }),
+            'username': forms.TextInput(attrs={
+                'class': 'au-input au-input--full',
+                'autocomplete': 'off',
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'au-input au-input--full',
+            }),
+            'password': forms.PasswordInput(attrs={
+                'class': 'au-input au-input--full',
+            })
+        }
 
 
 class StaffSignInForm(forms.ModelForm):
@@ -39,3 +74,12 @@ class StaffSignInForm(forms.ModelForm):
             'username',
             'password',
         )
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class': 'au-input au-input--full',
+                'autocomplete': 'off',
+            }),
+            'password': forms.PasswordInput(attrs={
+                'class': 'au-input au-input--full',
+            }),
+        }

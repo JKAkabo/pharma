@@ -12,7 +12,6 @@ def register_pharmacy(request):
         branch_registration_form = BranchRegistrationForm(data=request.POST, prefix='branch')
         staff_registration_form = StaffRegistrationForm(data=request.POST, prefix='staff')
         if branch_registration_form.is_valid() and pharmacy_registration_form.is_valid() and staff_registration_form.is_valid():
-            # TODO: save data db and do related manager to branch and branch and pharmacy
             new_pharmacy = pharmacy_registration_form.save()
 
             new_branch = branch_registration_form.save(commit=False)
