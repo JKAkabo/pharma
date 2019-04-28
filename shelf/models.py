@@ -1,7 +1,8 @@
 import uuid
 from django.db import models
+from django.dispatch import receiver
 
-from accounts.models import Branch
+from accounts.models import Branch, Staff
 
 
 class Product(models.Model):
@@ -30,15 +31,7 @@ class GroupSale(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     units_sold_value = models.DecimalField(max_digits=19, decimal_places=2)
     sale_count = models.PositiveIntegerField(default=0, editable=False)
-
-    def save(self, *args, **kwargs):
-        sales = self.sale_set.all()
-        if sales and sales.count() == self.sale_count:
-            for sale in sales:
-                self.units_sold_value += sale.units_sold_value
-        else:
-            self.units_sold_value = 0
-        super().save(*args, **kwargs)
+    attendant = models.ForeignKey(Staff, on_delete=models.CASCADE)
 
 
 class Sale(models.Model):
@@ -48,3 +41,12 @@ class Sale(models.Model):
     units_sold = models.PositiveIntegerField()
     units_sold_value = models.DecimalField(max_digits=19, decimal_places=2)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+
+@receiver(models.signals.post_save, sender=Sale)
+def compute_group_sale_value(sender, instance, **kwargs):
+    group_sale = instance.group_sale
+    sales = group_sale.sale_set.all()
+    if sales.count() == group_sale.sale_count:
+        for sale in sales:
+            group_sale.units_sold_value += sale.units_sold_value
