@@ -1,17 +1,16 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login as lin, logout as lout
 from django.shortcuts import render, redirect
 
-from .forms import BranchRegistrationForm, StaffRegistrationForm, StaffSignInForm, PharmacyRegistrationForm
+from .forms import BranchRegistrationForm, StaffRegistrationForm, StaffLoginForm, PharmacyRegistrationForm
 
 
 def register_pharmacy(request):
-    template_name = 'accounts/register_pharmacy.html'
-
     if request.method == 'POST':
+        agree = request.POST.get('agree', False)
         pharmacy_registration_form = PharmacyRegistrationForm(data=request.POST, prefix='pharmacy')
         branch_registration_form = BranchRegistrationForm(data=request.POST, prefix='branch')
         staff_registration_form = StaffRegistrationForm(data=request.POST, prefix='staff')
-        if branch_registration_form.is_valid() and pharmacy_registration_form.is_valid() and staff_registration_form.is_valid():
+        if agree and pharmacy_registration_form.is_valid() and branch_registration_form.is_valid() and staff_registration_form.is_valid():
             new_pharmacy = pharmacy_registration_form.save()
 
             new_branch = branch_registration_form.save(commit=False)
@@ -21,36 +20,42 @@ def register_pharmacy(request):
             new_staff = staff_registration_form.save(commit=False)
             new_staff.branch = new_branch
             new_staff.save()
-
             pass
+        else:
+            context = {
+                'branch_registration_form': branch_registration_form,
+                'pharmacy_registration_form': pharmacy_registration_form,
+                'staff_registration_form': staff_registration_form,
+            }
+            return render(request, 'accounts/register_pharmacy.html', context)
+
     else:
         context = {
             'branch_registration_form': BranchRegistrationForm(prefix='branch'),
             'pharmacy_registration_form': PharmacyRegistrationForm(prefix='pharmacy'),
             'staff_registration_form': StaffRegistrationForm(prefix='staff'),
         }
-        return render(request, template_name, context)
+        return render(request, 'accounts/register_pharmacy.html', context)
 
 
-def sign_in(request):
-    template_name = 'accounts/sign_in.html'
+def login(request):
     if request.method == 'POST':
-        sign_in_form = StaffSignInForm(data=request.POST)
-        if sign_in_form.is_valid():
-            username = sign_in_form.cleaned_data['username']
-            password = sign_in_form.cleaned_data['password']
+        login_form = StaffLoginForm(data=request.POST)
+        if login_form.is_valid():
+            username = login_form.cleaned_data['username']
+            password = login_form.cleaned_data['password']
             user = authenticate(username=username, password=password)
             if user is not None:
-                login(request, user)
+                lin(request, user)
             else:
                 pass
     else:
         context = {
-            'sign_in_form': StaffSignInForm,
+            'login_form': StaffLoginForm,
         }
-        return render(request, template_name, context)
+        return render(request, 'accounts/login.html', context)
 
 
-def sign_out(request):
-    logout(request)
-    return redirect('accounts:sign_in')
+def logout(request):
+    lout(request)
+    return redirect('login')

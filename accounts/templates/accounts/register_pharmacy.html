@@ -2,52 +2,94 @@
 {% load static %}
 
 {% block body %}
-    <div class="page-wrapper">
-        <div class="page-content--bge5">
-            <div class="container">
-                <div class="login-wrap">
-                    <div class="login-content">
-                        <div class="login-logo">
-                            <a href="#">
-                                <img src="{% static 'images/icon/logo.png' %}" alt="CoolAdmin">
-                            </a>
-                        </div>
-                        <div class="login-form">
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper auth-page">
+            <div class="content-wrapper d-flex align-items-center auth register-bg-1 theme-one">
+                <div class="row w-100">
+                    <div class="col-lg-4 mx-auto">
+                        <h2 class="text-center mb-4">Register</h2>
+                        <div class="auto-form-wrapper">
                             <form action="" method="post">
                                 {% csrf_token %}
-                                <h1>Pharmacy Details</h1>
-                                {% for field in pharmacy_registration_form %}
-                                <div class="form-group">
-                                    {{ field.label_tag }}
-                                    {{ field }}
+                                <div class="row">
+                                    <div class="col-md-6 d-flex align-items-stretch grid-margin">
+                                        <div class="row flex-grow">
+                                            <div class="col-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title">Pharmacy</h4>
+                                                        <p class="card-description">
+                                                            Provide details for your pharmacy
+                                                        </p>
+                                                        {% for field in pharmacy_registration_form %}
+                                                            <div class="form-group">
+                                                                {{ field.label_tag }}
+                                                                {{ field }}
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 stretch-card">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title">Head Branch</h4>
+                                                        <p class="card-description">
+                                                            Provide details for the Head Branch
+                                                        </p>
+                                                        {% for field in branch_registration_form %}
+                                                            <div class="form-group">
+                                                                {{ field.label_tag }}
+                                                                {{ field }}
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 grid-margin stretch-card">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Manager</h4>
+                                                <p class="card-description">
+                                                    Provide details of the Head Branch's Manager
+                                                </p>
+                                                {% for field in staff_registration_form %}
+                                                    <div class="form-group">
+                                                        {{ field.label_tag }}
+                                                        {{ field }}
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                {% endfor %}
-                                <hr>
-                                <h1>Branch Details</h1>
-                            {% for field in branch_registration_form %}
-                                <div class="form-group">
-                                    {{ field.label_tag }}
-            {{ field }}
-                                </div>
-                            {% endfor %}
 
-                            <hr>
-                            <h1>Manager Details</h1>
-                            {% for field in staff_registration_form %}
-                                <div class="form-group">
-                                    {{ field.label_tag }}
-            {{ field }}
+
+                                <div class="form-group d-flex justify-content-center">
+                                    <div class="form-check form-check-flat mt-0">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" name="agree"> I agree to the
+                                            terms
+                                        </label>
+                                    </div>
                                 </div>
-                            {% endfor %}
-                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">register
-                                </button>
+                                <div class="form-group">
+                                    <button class="btn btn-primary submit-btn btn-block">Register</button>
+                                </div>
+                                <div class="text-block text-center my-3">
+                                    <span class="text-small font-weight-semibold">Already have and account ?</span>
+                                    <a href="{% url 'accounts:login' %}" class="text-black text-small">Login</a>
+                                </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- content-wrapper ends -->
         </div>
-
+        <!-- page-body-wrapper ends -->
     </div>
-
+    <!-- container-scroller -->
 {% endblock %}

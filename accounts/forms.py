@@ -12,11 +12,13 @@ class PharmacyRegistrationForm(forms.ModelForm):
         )
         widgets = {
             'name': forms.TextInput(attrs={
-                'class': 'au-input au-input--full',
+                'class': 'form-control',
+                'placeholder': 'Pharmacy Name',
                 'autocomplete': 'off',
             }),
             'email': forms.EmailInput(attrs={
-                'class': 'au-input au-input--full',
+                'class': 'form-control',
+                'placeholder': 'Pharmacy Email',
             }),
         }
 
@@ -29,7 +31,8 @@ class BranchRegistrationForm(forms.ModelForm):
         )
         widgets = {
             'name': forms.TextInput(attrs={
-                'class': 'au-input au-input--full',
+                'class': 'form-control',
+                'placeholder': 'Branch Name',
                 'autocomplete': 'off',
             }),
         }
@@ -47,27 +50,32 @@ class StaffRegistrationForm(forms.ModelForm):
         )
         widgets = {
             'first_name': forms.TextInput(attrs={
-                'class': 'au-input au-input--full',
+                'class': 'form-control',
+                'placeholder': 'First Name',
                 'autocomplete': 'off',
             }),
             'last_name': forms.TextInput(attrs={
-                'class': 'au-input au-input--full',
+                'class': 'form-control',
+                'placeholder': 'Last Name',
                 'autocomplete': 'off',
             }),
             'username': forms.TextInput(attrs={
-                'class': 'au-input au-input--full',
+                'class': 'form-control',
+                'placeholder': 'Username',
                 'autocomplete': 'off',
             }),
             'email': forms.EmailInput(attrs={
-                'class': 'au-input au-input--full',
+                'class': 'form-control',
+                'placeholder': 'Email address',
             }),
             'password': forms.PasswordInput(attrs={
-                'class': 'au-input au-input--full',
+                'class': 'form-control',
+                'placeholder': 'Password',
             })
         }
 
 
-class StaffSignInForm(forms.ModelForm):
+class StaffLoginForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
         fields = (
@@ -76,10 +84,11 @@ class StaffSignInForm(forms.ModelForm):
         )
         widgets = {
             'username': forms.TextInput(attrs={
-                'class': 'au-input au-input--full',
+                'class': 'form-control',
                 'autocomplete': 'off',
             }),
             'password': forms.PasswordInput(attrs={
-                'class': 'au-input au-input--full',
+                'class': 'form-control',
             }),
         }
+
