@@ -17,10 +17,12 @@ def register_pharmacy(request):
             new_branch.pharmacy = new_pharmacy
             new_branch.save()
 
+            # password = staff_registration_form.cleaned_data['password']
             new_staff = staff_registration_form.save(commit=False)
             new_staff.branch = new_branch
+            # new_staff.set_password(password)
             new_staff.save()
-            pass
+            return redirect('accounts:login')
         else:
             context = {
                 'branch_registration_form': branch_registration_form,
@@ -44,11 +46,15 @@ def login(request):
         if login_form.is_valid():
             username = login_form.cleaned_data['username']
             password = login_form.cleaned_data['password']
+            print(username, password)
             user = authenticate(username=username, password=password)
             if user is not None:
                 lin(request, user)
+                return redirect('shelf:list_branches')
             else:
                 pass
+        else:
+            return render(request, 'accounts/login.html', {'login_form': login_form})
     else:
         context = {
             'login_form': StaffLoginForm,
@@ -58,4 +64,4 @@ def login(request):
 
 def logout(request):
     lout(request)
-    return redirect('login')
+    return redirect('accounts:login')

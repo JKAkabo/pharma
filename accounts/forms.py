@@ -75,20 +75,11 @@ class StaffRegistrationForm(forms.ModelForm):
         }
 
 
-class StaffLoginForm(forms.ModelForm):
-    class Meta:
-        model = get_user_model()
-        fields = (
-            'username',
-            'password',
-        )
-        widgets = {
-            'username': forms.TextInput(attrs={
-                'class': 'form-control',
-                'autocomplete': 'off',
-            }),
-            'password': forms.PasswordInput(attrs={
-                'class': 'form-control',
-            }),
-        }
-
+class StaffLoginForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'autocomplete': 'off',
+    }))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+    }))

@@ -8,15 +8,16 @@
                 <div class="row w-100">
                     <div class="col-lg-4 mx-auto">
                         <div class="auto-form-wrapper">
-                            <form action="#">
-                                <div class="form-group">
-                                    <label class="label">Username</label>
-                                    {{ login_form.username }}
-                                </div>
-                                <div class="form-group">
-                                    <label class="label">Password</label>
-                                    {{ login_form.password }}
-                                </div>
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                {% for field in login_form %}
+                                    <div class="form-group">
+                                        {{ field.label_tag }}
+                                        {{ field }}
+                                        {{ field.errors }}
+
+                                    </div>
+                                {% endfor %}
                                 <div class="form-group">
                                     <button class="btn btn-primary submit-btn btn-block">Login</button>
                                 </div>
@@ -25,7 +26,8 @@
                                 </div>
                                 <div class="text-block text-center my-3">
                                     <span class="text-small font-weight-semibold">Not a member ?</span>
-                                    <a href="{% url 'accounts:register_pharmacy' %}" class="text-black text-small">Create new account</a>
+                                    <a href="{% url 'accounts:register_pharmacy' %}" class="text-black text-small">Create
+                                        new account</a>
                                 </div>
                             </form>
                         </div>

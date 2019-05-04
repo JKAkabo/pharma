@@ -3,33 +3,34 @@
 <html lang="en">
 
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Login | PharmaNet</title>
-  <!-- plugins:css -->
-  <link rel="stylesheet" href="{% static 'pharma/iconfonts/mdi/css/materialdesignicons.min.css' %}">
-  <link rel="stylesheet" href="{% static 'pharma/css/vendor.bundle.base.css' %}">
-  <link rel="stylesheet" href="{% static 'pharma/css/vendor.bundle.addons.css' %}">
-  <!-- endinject -->
-  <!-- plugin css for this page -->
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="{% static 'pharma/css/style.css' %}">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="{% static 'pharma/css/favicon.png' %}">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login | PharmaNet</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static 'pharma/iconfonts/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pharma/css/vendor.bundle.base.css' %}">
+    <link rel="stylesheet" href="{% static 'pharma/css/vendor.bundle.addons.css' %}">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{% static 'pharma/css/style.css' %}">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="{% static 'pharma/css/favicon.png' %}">
 </head>
 
 <body>
-  {% block body %}{% endblock %}
-  <!-- plugins:js -->
-  <script src="{% static 'pharma/js/vendor.bundle.base.js' %}"></script>
-  <script src="{% static 'pharma/js/vendor.bundle.addons.js' %}"></script>
-  <!-- endinject -->
-  <!-- inject:js -->
-  <script src="{% static 'pharma/js/off-canvas.js' %}"></script>
-  <script src="{% static 'pharma/js/misc.js' %}"></script>
-  <!-- endinject -->
+{% block body %}{% endblock %}
+<!-- plugins:js -->
+<script src="{% static 'pharma/js/vendor.bundle.base.js' %}"></script>
+<script src="{% static 'pharma/js/vendor.bundle.addons.js' %}"></script>
+<!-- endinject -->
+<!-- inject:js -->
+<script src="{% static 'pharma/js/off-canvas.js' %}"></script>
+<script src="{% static 'pharma/js/misc.js' %}"></script>
+<!-- endinject -->
+{% block scripts %}{% endblock %}
 </body>
 
 </html>

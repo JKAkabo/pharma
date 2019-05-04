@@ -15,7 +15,7 @@ class Product(models.Model):
 class Stock(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     product = models.OneToOneField(Product, on_delete=models.CASCADE)
-    unit_price = models.DecimalField(max_digits=19, decimal_places=2)
+    unit_price = models.DecimalField(default=0, max_digits=19, decimal_places=2)
     units_sold = models.PositiveIntegerField(default=0, editable=False)
     units_left = models.PositiveIntegerField(default=0, editable=False)
     units_sold_value = models.DecimalField(max_digits=19, default=0.00, decimal_places=2, editable=False)
@@ -29,7 +29,7 @@ class Stock(models.Model):
 
 class GroupSale(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    units_sold_value = models.DecimalField(max_digits=19, decimal_places=2)
+    units_sold_value = models.DecimalField(default=0, max_digits=19, decimal_places=2)
     sale_count = models.PositiveIntegerField(default=0, editable=False)
     attendant = models.ForeignKey(Staff, on_delete=models.CASCADE)
 
@@ -42,6 +42,10 @@ class Sale(models.Model):
     units_sold_value = models.DecimalField(max_digits=19, decimal_places=2)
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        self.units_sold_value = self.units_sold * self.product.stock.unit_price
+        super().save(*args, **kwargs)
+
 
 @receiver(models.signals.post_save, sender=Sale)
 def compute_group_sale_value(sender, instance, **kwargs):
@@ -50,3 +54,9 @@ def compute_group_sale_value(sender, instance, **kwargs):
     if sales.count() == group_sale.sale_count:
         for sale in sales:
             group_sale.units_sold_value += sale.units_sold_value
+    group_sale.save()
+
+
+@receiver(models.signals.post_save, sender=Product)
+def create_stock_object(sender, instance, **kwargs):
+    stock = Stock.objects.create(product=instance)

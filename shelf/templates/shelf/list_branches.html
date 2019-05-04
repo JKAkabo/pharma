@@ -1,0 +1,75 @@
+{% extends 'shelf/base.html' %}
+
+{% block body %}
+    <div class="row my-3">
+        <a href="" class="btn btn-rounded btn-primary float-right mx-auto">
+            <i class="mdi mdi-plus"></i> New
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Branches</h4>
+                    <p class="card-description">
+                        {% if branches.count == 1 %}
+                            Showing {{ branches.count }} branch
+                        {% else %}
+                            Showing {{ branches.count }} branches
+                        {% endif %}
+                    </p>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th width="80%">
+                                    Branch Name
+                                </th>
+                                <th>
+                                    No. of Employees
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for branch in branches %}
+                                <tr>
+                                    <td>{{ branch.name }}</td>
+                                    <td>{{ branch.staff_set.count }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block sidebar_menu %}
+    <li class="nav-item">
+        <a class="nav-link" href="">
+            <i class="menu-icon mdi mdi-television"></i>
+            <span class="menu-title">Dashboard</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="../../pages/forms/basic_elements.html">
+            <i class="menu-icon mdi mdi-poll-box"></i>
+            <span class="menu-title">Sales</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="../../pages/forms/basic_elements.html">
+            <i class="menu-icon mdi mdi-account-location"></i>
+            <span class="menu-title">Employees</span>
+        </a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="../../pages/charts/chartjs.html">
+            <i class="menu-icon mdi mdi-factory"></i>
+            <span class="menu-title">Branches</span>
+        </a>
+    </li>
+{% endblock %}
