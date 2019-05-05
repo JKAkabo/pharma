@@ -1,4 +1,5 @@
 import uuid
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.dispatch import receiver
 
@@ -30,7 +31,7 @@ class Stock(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.product
+        return str(self.product)
 
 
 class GroupSale(models.Model):
@@ -51,6 +52,11 @@ class Sale(models.Model):
     units_sold = models.PositiveIntegerField()
     units_sold_value = models.DecimalField(max_digits=19, decimal_places=2)
 
+    def clean(self):
+        units_left = self.product.stock.units_left
+        if self.units_sold > units_left:
+            raise ValidationError('Only ' + str(units_left) + ' are left in stock.')
+
     def save(self, *args, **kwargs):
         self.units_sold_value = self.units_sold * self.product.stock.unit_price
         super().save(*args, **kwargs)
@@ -60,15 +66,19 @@ class Sale(models.Model):
 
 
 @receiver(models.signals.post_save, sender=Sale)
-def compute_group_sale_value(sender, instance, **kwargs):
+def compute_after_group_sale(sender, instance, **kwargs):
     group_sale = instance.group_sale
     sales = group_sale.sale_set.all()
     if sales.count() == group_sale.sale_count:
         for sale in sales:
             group_sale.units_sold_value += sale.units_sold_value
+            stock = sale.product.stock
+            stock.units_sold += sale.units_sold
+            stock.units_left -= sale.units_sold
+            stock.save()
     group_sale.save()
 
 
 @receiver(models.signals.post_save, sender=Product)
 def create_stock_object(sender, instance, **kwargs):
-    stock = Stock.objects.create(product=instance)
+    Stock.objects.create(product=instance)
