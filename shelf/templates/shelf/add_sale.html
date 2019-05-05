@@ -19,7 +19,10 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th width="70%">
+                                <th width="2%">
+
+                                </th>
+                                <th width="68%">
                                     Product
                                 </th>
                                 <th width="20%">
@@ -33,7 +36,57 @@
                             <tbody id="form-list">
                             {% for form in formset %}
                                 <tr>
-                                    <td>{{ form.product }}</td>
+                                    <td>
+                                        {% if form.errors %}
+                                            <div class="dropdown">
+                                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                    <i class="mdi mdi-alert-circle-outline text-danger"></i>
+                                                </a>
+                                                <div class="dropdown-menu preview-list">
+                                                    {% if form.product.errors %}
+                                                        <div class="dropdown-header">Product</div>
+                                                        {% for error in form.product.errors %}
+                                                            <div class="dropdown-item preview-item text-danger">
+                                                                <div class="preview-thumbnail">
+                                                                    <div class="preview-icon bg-danger">
+                                                                        <i class="mdi mdi-alert-circle-outline"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="preview-item-content">
+                                                                    <div class="font-weight-medium">
+                                                                        {{ error }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                        <div class="dropdown-divider"></div>
+                                                    {% endif %}
+                                                    {% if form.units_sold.errors %}
+                                                        <div class="dropdown-header">Units</div>
+                                                        {% for error in form.units_sold.errors %}
+                                                            <div class="dropdown-item preview-item text-danger">
+                                                                <div class="preview-thumbnail">
+                                                                    <div class="preview-icon bg-danger">
+                                                                        <i class="mdi mdi-alert-circle-outline"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="preview-item-content">
+                                                                    <div class="font-weight-medium">
+                                                                        {{ error }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ form.product }}
+
+                                    </td>
                                     <td>{{ form.units_sold }}</td>
                                     <td><a href="#"><i class="mdi mdi-close"></i></a></td>
                                 </tr>
@@ -60,20 +113,22 @@
             const formList = $('#form-list');
             const firstForm = formList.children()[0];
             const newForm = $(firstForm.outerHTML);
-            const productField = $(newForm.children()[0]).children()[0];
-            const unitsSoldField = $(newForm.children()[1]).children()[0];
-            productField.name = $(newForm.children()[0]).children()[0].name.replace('0', formCounter.val());
-            productField.id = $(newForm.children()[0]).children()[0].id.replace('0', formCounter.val());
+            const errorField = $(newForm.children()[0]);
+            const productField = $(newForm.children()[1]).children()[0];
+            const unitsSoldField = $(newForm.children()[2]).children()[0];
+            $(errorField).html('');
+            productField.name = productField.name.replace('0', formCounter.val());
+            productField.id = productField.id.replace('0', formCounter.val());
             $(productField).val('');
-            unitsSoldField.name = $(newForm.children()[1]).children()[0].name.replace('0', formCounter.val());
-            unitsSoldField.id = $(newForm.children()[1]).children()[0].id.replace('0', formCounter.val());
+            unitsSoldField.name = unitsSoldField.name.replace('0', formCounter.val());
+            unitsSoldField.id = unitsSoldField.id.replace('0', formCounter.val());
             $(unitsSoldField).val('');
             formList.append(newForm);
         }
 
         addSaleFormBtn.click(function () {
             addForm();
-            formCounter.val(parseInt(formCounter.val())+1);
+            formCounter.val(parseInt(formCounter.val()) + 1);
         });
 
 

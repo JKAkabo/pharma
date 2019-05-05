@@ -55,7 +55,7 @@ class Sale(models.Model):
     def clean(self):
         units_left = self.product.stock.units_left
         if self.units_sold > units_left:
-            raise ValidationError('Only ' + str(units_left) + ' are left in stock.')
+            raise ValidationError({'units_sold': 'Only ' + str(units_left) + ' units are left in stock.'})
 
     def save(self, *args, **kwargs):
         self.units_sold_value = self.units_sold * self.product.stock.unit_price
