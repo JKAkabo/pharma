@@ -60,10 +60,10 @@
             const formList = $('#form-list');
             const firstForm = formList.children()[0];
             const newForm = $(firstForm.outerHTML);
-            $(newForm.children()[0]).children()[0].name.replace('0', formCounter.val());
-            $(newForm.children()[0]).children()[0].id.replace('0', formCounter.val());
-            $(newForm.children()[1]).children()[0].name.replace('0', formCounter.val());
-            $(newForm.children()[1]).children()[0].id.replace('0', formCounter.val());
+            $(newForm.children()[0]).children()[0].name = $(newForm.children()[0]).children()[0].name.replace('0', formCounter.val());
+            $(newForm.children()[0]).children()[0].id = $(newForm.children()[0]).children()[0].id.replace('0', formCounter.val());
+            $(newForm.children()[1]).children()[0].name = $(newForm.children()[1]).children()[0].name.replace('0', formCounter.val());
+            $(newForm.children()[1]).children()[0].id = $(newForm.children()[1]).children()[0].id.replace('0', formCounter.val());
             formList.append(newForm);
         }
 

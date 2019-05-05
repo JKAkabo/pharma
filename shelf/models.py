@@ -11,6 +11,9 @@ class Product(models.Model):
     name = models.CharField(max_length=50)
     active_ingredients = models.TextField()
 
+    def __str__(self):
+        return self.name
+
 
 class Stock(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -26,12 +29,19 @@ class Stock(models.Model):
         self.units_left_value = self.units_left * self.unit_price
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        return self.product
+
 
 class GroupSale(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     units_sold_value = models.DecimalField(default=0, max_digits=19, decimal_places=2)
     sale_count = models.PositiveIntegerField(default=0, editable=False)
     attendant = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.id)
 
 
 class Sale(models.Model):
@@ -40,11 +50,13 @@ class Sale(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     units_sold = models.PositiveIntegerField()
     units_sold_value = models.DecimalField(max_digits=19, decimal_places=2)
-    timestamp = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         self.units_sold_value = self.units_sold * self.product.stock.unit_price
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return str(self.id)
 
 
 @receiver(models.signals.post_save, sender=Sale)

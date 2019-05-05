@@ -1,0 +1,49 @@
+{% extends 'shelf/base.html' %}
+
+{% block body %}
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                    <h4 class="card-title">Sales Receipt</h4>
+                    <p class="card-description">
+                    </p>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th width="70%">
+                                    Product
+                                </th>
+                                <th width="10%">
+                                    Units
+                                </th>
+                                <th width="20%">
+                                    Cost (GHS)
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for sale in group_sale.sale_set.all %}
+                                    <tr>
+                                        <td>{{ sale.product }}</td>
+                                        <td>{{ sale.units_sold }}</td>
+                                        <td>{{ sale.units_sold_value }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr class="bg-inverse-success">
+                                    <td colspan="2">Total</td>
+                                    <td>{{ group_sale.units_sold_value }}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <a href="{% url 'shelf:add_group_sale' %}" class="btn btn-primary mx-auto my-2">Done</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
