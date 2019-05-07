@@ -14,11 +14,11 @@
                     </a>
                 </div>
                 <div class="btn-group float-right">
-                    <a id="add-sale-form-btn" href="#" class="btn btn-inverse-info">
+                    <a id="add-stock-form-btn" href="#" class="btn btn-inverse-info">
                         <i class="mdi mdi-plus"></i>
                     </a>
                 </div>
-                <form id="group-sale-form" action="" method="post">
+                <form id="stock-form" action="" method="post">
                     {% csrf_token %}
                     {{ formset.management_form }}
                     <h4 class="card-title">Sales</h4>
@@ -70,9 +70,9 @@
                                                         {% endfor %}
                                                         <div class="dropdown-divider"></div>
                                                     {% endif %}
-                                                    {% if form.units_sold.errors %}
+                                                    {% if form.units.errors %}
                                                         <div class="dropdown-header">Units</div>
-                                                        {% for error in form.units_sold.errors %}
+                                                        {% for error in form.units.errors %}
                                                             <div class="dropdown-item preview-item text-danger">
                                                                 <div class="preview-thumbnail">
                                                                     <div class="preview-icon bg-danger">
@@ -96,7 +96,7 @@
                                         {{ form.product }}
 
                                     </td>
-                                    <td>{{ form.units_sold }}</td>
+                                    <td>{{ form.units }}</td>
                                     <td><a href="#"><i class="mdi mdi-close"></i></a></td>
                                 </tr>
                             {% endfor %}
@@ -115,7 +115,7 @@
 
 {% block scripts %}
     <script>
-        const addSaleFormBtn = $('#add-sale-form-btn');
+        const addStockFormBtn = $('#add-stock-form-btn');
         const formCounter = $('#id_form-TOTAL_FORMS');
 
         function addForm() {
@@ -135,7 +135,7 @@
             formList.append(newForm);
         }
 
-        addSaleFormBtn.click(function () {
+        addStockFormBtn.click(function () {
             addForm();
             formCounter.val(parseInt(formCounter.val()) + 1);
         });
@@ -156,13 +156,13 @@
             <span class="menu-title">Dashboard</span>
         </a>
     </li>
-    <li class="nav-item active">
+    <li class="nav-item">
         <a class="nav-link" href="{% url 'shelf:list_group_sales' %}">
             <i class="menu-icon mdi mdi-poll-box"></i>
             <span class="menu-title">Sales</span>
         </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item active">
         <a class="nav-link" href="../../pages/forms/basic_elements.html">
             <i class="menu-icon mdi mdi-chart-scatterplot-hexbin"></i>
             <span class="menu-title">Stocks</span>

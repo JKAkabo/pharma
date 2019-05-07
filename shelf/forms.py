@@ -12,8 +12,16 @@ class AddProductForm(forms.ModelForm):
         )
 
 
-class AddStockForm(forms.Form):
-    units = forms.IntegerField(min_value=1)
+class AddToStockForm(forms.Form):
+    products = Product.objects.all()
+
+    product = forms.ModelChoiceField(products, widget=forms.Select(attrs={
+        'class': 'form-control',
+    }))
+    units = forms.IntegerField(min_value=1, widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'required': '',
+    }))
 
 
 class AddSaleForm(forms.ModelForm):
@@ -35,4 +43,5 @@ class AddSaleForm(forms.ModelForm):
         }
 
 
-AddSaleFormSet = formset_factory(AddSaleForm, can_delete=True)
+AddSaleFormSet = formset_factory(AddSaleForm)
+AddToStockFormSet = formset_factory(AddToStockForm)

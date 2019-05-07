@@ -4,6 +4,14 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
+                <div class="btn-group float-right">
+                    <a href="#" class="btn btn-inverse-info">
+                        <i class="mdi mdi-printer"></i>
+                    </a>
+                    <a href="{% url 'shelf:add_sale' %}" class="btn btn-inverse-info">
+                        <i class="mdi mdi-close"></i>
+                    </a>
+                </div>
                 <h4 class="card-title">Sales Receipt</h4>
                 <div class="table-responsive">
                     <table class="table table-striped">
@@ -37,9 +45,6 @@
                         </tfoot>
                     </table>
                 </div>
-                <div class="row">
-                    <a href="{% url 'shelf:add_group_sale' %}" class="btn btn-primary mx-auto my-2">Done</a>
-                </div>
                 </form>
             </div>
             <div class="card-footer text-small">
@@ -58,20 +63,32 @@
         </a>
     </li>
     <li class="nav-item active">
-        <a class="nav-link" href="../../pages/forms/basic_elements.html">
+        <a class="nav-link" href="{% url 'shelf:list_group_sales' %}">
             <i class="menu-icon mdi mdi-poll-box"></i>
             <span class="menu-title">Sales</span>
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="../../pages/forms/basic_elements.html">
-            <i class="menu-icon mdi mdi-account-location"></i>
+            <i class="menu-icon mdi mdi-chart-scatterplot-hexbin"></i>
+            <span class="menu-title">Stocks</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="../../pages/forms/basic_elements.html">
+            <i class="menu-icon mdi mdi-archive"></i>
+            <span class="menu-title">Products</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="../../pages/forms/basic_elements.html">
+            <i class="menu-icon mdi mdi-account"></i>
             <span class="menu-title">Employees</span>
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="../../pages/charts/chartjs.html">
-            <i class="menu-icon mdi mdi-factory"></i>
+            <i class="menu-icon mdi mdi-store"></i>
             <span class="menu-title">Branches</span>
         </a>
     </li>
