@@ -46,13 +46,16 @@ def login(request):
         if login_form.is_valid():
             username = login_form.cleaned_data['username']
             password = login_form.cleaned_data['password']
-            print(username, password)
             user = authenticate(username=username, password=password)
             if user is not None:
                 lin(request, user)
                 return redirect('shelf:list_branches')
             else:
-                pass
+                login_form.add_error(field=None, error='Incorrect username or password')
+                context = {
+                    'login_form': login_form,
+                }
+                return render(request, 'accounts/login.html', context)
         else:
             return render(request, 'accounts/login.html', {'login_form': login_form})
     else:
