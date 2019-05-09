@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'accounts.apps.AccountsConfig',
     'shelf.apps.ShelfConfig',
 ]
