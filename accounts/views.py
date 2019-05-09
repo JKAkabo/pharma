@@ -17,10 +17,10 @@ def register_pharmacy(request):
             new_branch.pharmacy = new_pharmacy
             new_branch.save()
 
-            # password = staff_registration_form.cleaned_data['password']
+            password = staff_registration_form.cleaned_data['password']
             new_staff = staff_registration_form.save(commit=False)
             new_staff.branch = new_branch
-            # new_staff.set_password(password)
+            new_staff.set_password(password)
             new_staff.save()
             return redirect('accounts:login')
         else:
