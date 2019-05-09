@@ -6,6 +6,6 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['localhost']
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 django_heroku.settings(locals())
