@@ -1,9 +1,11 @@
 from django.contrib.auth import get_user
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.decorators import method_decorator
+from django.views.generic import CreateView, View
 
-from .models import GroupSale, Sale
-from .forms import AddToStockFormSet, AddSaleFormSet
+from .models import GroupSale, Sale, Product
+from .forms import AddToStockFormSet, AddSaleFormSet, AddBranchForm, AddProductFormSet
 
 
 @login_required
@@ -61,6 +63,24 @@ def list_branches(request):
 
 
 @login_required
+def add_branch(request):
+    user = get_user(request)
+    context = {'user': user}
+
+    if request.method == 'POST':
+        form = AddBranchForm(data=request.POST)
+        if form.is_valid():
+            new_branch = form.save(commit=False)
+            new_branch.pharmacy = user.branch.pharmacy
+            new_branch.save()
+            return redirect('shelf:list_branches')
+    else:
+        form = AddBranchForm
+        context['form'] = form
+        return render(request, 'shelf/add_branch.html', context)
+
+
+@login_required
 def group_sale_receipt(request, group_sale_id):
     user = get_user(request)
     context = {'user': user}
@@ -90,3 +110,32 @@ def add_to_stock(request):
         formset = AddToStockFormSet
         context['formset'] = formset
         return render(request, 'shelf/add_to_stock.html', context)
+
+
+@login_required
+def add_product(request):
+    user = get_user(request)
+    context = {'user': user}
+
+    if request.method == 'POST':
+        formset = AddProductFormSet(data=request.POST)
+        if formset.is_valid():
+            for form in formset:
+                new_product = form.save(commit=False)
+                new_product.branch = user.branch
+                new_product.save()
+                return redirect('shelf:list_products')
+    else:
+        formset = AddProductFormSet
+        context['formset'] = formset
+        return render(request, 'shelf/add_product.html', context)
+
+
+@login_required
+def list_products(request):
+    user = get_user(request)
+    context = {'user': user}
+
+    products = Product.objects.filter(branch=user.branch)
+    context['products'] = products
+    return render(request, 'shelf/list_products.html', context)

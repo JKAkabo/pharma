@@ -1,6 +1,6 @@
 {% extends 'shelf/base.html' %}
 
-{% block title %}Add Sale{% endblock %}
+{% block title %}Add Product{% endblock %}
 
 {% block body %}
 
@@ -16,11 +16,11 @@
                     </a>
                 </div>
                 <div class="btn-group float-right">
-                    <a id="add-sale-form-btn" href="#" class="btn btn-inverse-info">
+                    <a id="add-product-form-btn" href="#" class="btn btn-inverse-info">
                         <i class="mdi mdi-plus"></i>
                     </a>
                 </div>
-                <form id="group-sale-form" action="" method="post">
+                <form id="product-form" action="" method="post">
                     {% csrf_token %}
                     {{ formset.management_form }}
                     <h4 class="card-title">Sales</h4>
@@ -33,11 +33,11 @@
                                 <th width="2%">
 
                                 </th>
-                                <th width="68%">
-                                    Product
+                                <th width="44%">
+                                    Product Name
                                 </th>
-                                <th width="20%">
-                                    Units
+                                <th width="44%">
+                                    Active Ingredients
                                 </th>
                                 <th width="10%">
 
@@ -54,9 +54,9 @@
                                                     <i class="mdi mdi-alert-circle-outline text-danger"></i>
                                                 </a>
                                                 <div class="dropdown-menu preview-list">
-                                                    {% if form.product.errors %}
-                                                        <div class="dropdown-header">Product</div>
-                                                        {% for error in form.product.errors %}
+                                                    {% if form.name.errors %}
+                                                        <div class="dropdown-header">Product Name</div>
+                                                        {% for error in form.name.errors %}
                                                             <div class="dropdown-item preview-item text-danger">
                                                                 <div class="preview-thumbnail">
                                                                     <div class="preview-icon bg-danger">
@@ -72,9 +72,9 @@
                                                         {% endfor %}
                                                         <div class="dropdown-divider"></div>
                                                     {% endif %}
-                                                    {% if form.units_sold.errors %}
-                                                        <div class="dropdown-header">Units</div>
-                                                        {% for error in form.units_sold.errors %}
+                                                    {% if form.active_ingredients.errors %}
+                                                        <div class="dropdown-header">Active Ingredients</div>
+                                                        {% for error in form.active_ingredients.errors %}
                                                             <div class="dropdown-item preview-item text-danger">
                                                                 <div class="preview-thumbnail">
                                                                     <div class="preview-icon bg-danger">
@@ -95,10 +95,10 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        {{ form.product }}
+                                        {{ form.name }}
 
                                     </td>
-                                    <td>{{ form.units_sold }}</td>
+                                    <td>{{ form.active_ingredients }}</td>
                                     <td><a href="#"><i class="mdi mdi-close"></i></a></td>
                                 </tr>
                             {% endfor %}
@@ -117,7 +117,7 @@
 
 {% block scripts %}
     <script>
-        const addSaleFormBtn = $('#add-sale-form-btn');
+        const addStockFormBtn = $('#add-product-form-btn');
         const formCounter = $('#id_form-TOTAL_FORMS');
 
         function addForm() {
@@ -137,7 +137,7 @@
             formList.append(newForm);
         }
 
-        addSaleFormBtn.click(function () {
+        addStockFormBtn.click(function () {
             addForm();
             formCounter.val(parseInt(formCounter.val()) + 1);
         });
@@ -158,7 +158,7 @@
             <span class="menu-title">Dashboard</span>
         </a>
     </li>
-    <li class="nav-item active">
+    <li class="nav-item">
         <a class="nav-link" href="{% url 'shelf:list_group_sales' %}">
             <i class="menu-icon mdi mdi-poll-box"></i>
             <span class="menu-title">Sales</span>
@@ -170,8 +170,8 @@
             <span class="menu-title">Stocks</span>
         </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="../../pages/forms/basic_elements.html">
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'shelf:list_products' %}">
             <i class="menu-icon mdi mdi-archive"></i>
             <span class="menu-title">Products</span>
         </a>

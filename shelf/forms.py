@@ -1,6 +1,18 @@
 from django import forms
 from django.forms import formset_factory, BaseModelFormSet
-from .models import Product, Stock, GroupSale, Sale
+from .models import Branch, Product, Stock, GroupSale, Sale
+
+
+class AddBranchForm(forms.ModelForm):
+    class Meta:
+        model = Branch
+        fields = ('name', )
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'autocomplete': 'off',
+            })
+        }
 
 
 class AddProductForm(forms.ModelForm):
@@ -10,6 +22,16 @@ class AddProductForm(forms.ModelForm):
             'name',
             'active_ingredients',
         )
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'autocomplete': 'off',
+                'required': '',
+            }),
+            'active_ingredients': forms.Textarea(attrs={
+                'class': 'form-control',
+            })
+        }
 
 
 class AddToStockForm(forms.Form):
@@ -45,3 +67,4 @@ class AddSaleForm(forms.ModelForm):
 
 AddSaleFormSet = formset_factory(AddSaleForm)
 AddToStockFormSet = formset_factory(AddToStockForm)
+AddProductFormSet = formset_factory(AddProductForm)

@@ -1,6 +1,6 @@
 {% extends 'shelf/base.html' %}
 
-{% block title %}Sales{% endblock %}
+{% block title %}Products{% endblock %}
 
 {% block body %}
     <div class="row">
@@ -8,19 +8,19 @@
             <div class="card">
                 <div class="card-body">
                     <div class="btn-group float-right">
-                        <a href="{% url 'shelf:add_sale' %}" class="btn btn-inverse-info">
+                        <a href="{% url 'shelf:add_product' %}" class="btn btn-inverse-info">
                             <i class="mdi mdi-plus"></i>
                         </a>
-                        <a href="{% url 'shelf:list_group_sales' %}" class="btn btn-inverse-info">
+                        <a href="{% url 'shelf:list_branches' %}" class="btn btn-inverse-info">
                             <i class="mdi mdi-home"></i>
                         </a>
                     </div>
-                    <h4 class="card-title">Bulk Sales</h4>
+                    <h4 class="card-title">Products</h4>
                     <p class="card-description">
-                        {% if branches.count == 1 %}
-                            Showing {{ group_sales.count }} bulk sale
+                        {% if products.count == 1 %}
+                            Showing {{ products.count }} product
                         {% else %}
-                            Showing {{ group_sales.count }} bulk sales
+                            Showing {{ products.count }} products
                         {% endif %}
                     </p>
                     <div class="table-responsive">
@@ -28,22 +28,18 @@
                             <thead>
                             <tr>
                                 <th width="80%">
-                                    Bulk Sale ID
+                                    Product Name
                                 </th>
                                 <th>
-                                    Value
-                                </th>
-                                <th>
-
+                                    Active Ingredients
                                 </th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for group_sale in group_sales %}
+                            {% for product in products %}
                                 <tr>
-                                    <td><a href="{% url 'shelf:list_sales' group_sale.id %}">{{ group_sale }}</a></td>
-                                    <td>{{ group_sale.units_sold_value }}</td>
-                                    <td>{{ group_sale.timestamp }}</td>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.active_ingredients }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -62,7 +58,7 @@
             <span class="menu-title">Dashboard</span>
         </a>
     </li>
-    <li class="nav-item active">
+    <li class="nav-item">
         <a class="nav-link" href="{% url 'shelf:list_group_sales' %}">
             <i class="menu-icon mdi mdi-poll-box"></i>
             <span class="menu-title">Sales</span>
@@ -74,7 +70,7 @@
             <span class="menu-title">Stocks</span>
         </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item active">
         <a class="nav-link" href="{% url 'shelf:list_products' %}">
             <i class="menu-icon mdi mdi-archive"></i>
             <span class="menu-title">Products</span>
@@ -92,4 +88,4 @@
             <span class="menu-title">Branches</span>
         </a>
     </li>
-{% endblock %}
+{% endblock %}%}

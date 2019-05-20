@@ -1,5 +1,7 @@
 {% extends 'shelf/base.html' %}
 
+{% block title %}Sales{% endblock %}
+
 {% block body %}
     <div class="row my-3">
     </div>
@@ -79,7 +81,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="../../pages/forms/basic_elements.html">
+        <a class="nav-link" href="{% url 'shelf:list_products' %}">
             <i class="menu-icon mdi mdi-archive"></i>
             <span class="menu-title">Products</span>
         </a>
@@ -91,7 +93,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="../../pages/charts/chartjs.html">
+        <a class="nav-link" href="{% url 'shelf:list_branches' %}">
             <i class="menu-icon mdi mdi-store"></i>
             <span class="menu-title">Branches</span>
         </a>

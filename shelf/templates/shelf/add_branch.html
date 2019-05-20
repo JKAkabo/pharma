@@ -1,7 +1,42 @@
 {% extends 'shelf/base.html' %}
 
-{% block body %}
+{% block title %}Add Branch{% endblock %}
 
+{% block body %}
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="btn-group float-right">
+                    <a href="{% url 'shelf:list_group_sales' %}" class="btn btn-inverse-info">
+                        <i class="mdi mdi-arrow-left"></i>
+                    </a>
+                    <a href="{% url 'shelf:list_group_sales' %}" class="btn btn-inverse-info">
+                        <i class="mdi mdi-home"></i>
+                    </a>
+                </div>
+                <div class="btn-group float-right">
+                    <a id="add-sale-form-btn" href="#" class="btn btn-inverse-info">
+                        <i class="mdi mdi-plus"></i>
+                    </a>
+                </div>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <h4 class="card-title">Add Branch</h4>
+                    <p class="card-description">
+                        Provide new branch name to proceed.
+                    </p>
+                    {% for field in form %}
+                        <div class="form-group">
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <div class="row">
+                        <button class="btn btn-primary mx-auto my-2">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block sidebar_menu %}
@@ -24,7 +59,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="../../pages/forms/basic_elements.html">
+        <a class="nav-link" href="{% url 'shelf:list_products' %}">
             <i class="menu-icon mdi mdi-archive"></i>
             <span class="menu-title">Products</span>
         </a>
@@ -36,7 +71,7 @@
         </a>
     </li>
     <li class="nav-item active">
-        <a class="nav-link" href="../../pages/charts/chartjs.html">
+        <a class="nav-link" href="{% url 'shelf:list_branches' %}">
             <i class="menu-icon mdi mdi-store"></i>
             <span class="menu-title">Branches</span>
         </a>

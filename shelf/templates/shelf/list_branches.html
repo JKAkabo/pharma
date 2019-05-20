@@ -1,12 +1,14 @@
 {% extends 'shelf/base.html' %}
 
+{% block title %}Branches{% endblock %}
+
 {% block body %}
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <div class="btn-group float-right">
-                        <a href="#" class="btn btn-inverse-info">
+                        <a href="{% url 'shelf:add_branch' %}" class="btn btn-inverse-info">
                             <i class="mdi mdi-plus"></i>
                         </a>
                         <a href="{% url 'shelf:list_branches' %}" class="btn btn-inverse-info">
@@ -69,7 +71,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="../../pages/forms/basic_elements.html">
+        <a class="nav-link" href="{% url 'shelf:list_products' %}">
             <i class="menu-icon mdi mdi-archive"></i>
             <span class="menu-title">Products</span>
         </a>
@@ -81,7 +83,7 @@
         </a>
     </li>
     <li class="nav-item active">
-        <a class="nav-link" href="../../pages/charts/chartjs.html">
+        <a class="nav-link" href="{% url 'shelf:list_branches' %}">
             <i class="menu-icon mdi mdi-store"></i>
             <span class="menu-title">Branches</span>
         </a>

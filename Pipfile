@@ -12,6 +12,8 @@ djangorestframework = "*"
 gunicorn = "*"
 django-heroku = "*"
 whitenoise = "*"
+channels-redis = "*"
+django-cors-headers = "*"
 
 [requires]
 python_version = "3.6"
