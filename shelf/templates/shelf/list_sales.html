@@ -21,12 +21,12 @@
                             <i class="mdi mdi-home"></i>
                         </a>
                     </div>
-                    <h4 class="card-title">Branches</h4>
+                    <h4 class="card-title">Sales</h4>
                     <p class="card-description">
                         {% if branches.count == 1 %}
-                            Showing {{ group_sales.count }} branch
+                            Showing {{ group_sales.count }} sale
                         {% else %}
-                            Showing {{ group_sales.count }} branches
+                            Showing {{ group_sales.count }} sales
                         {% endif %}
                     </p>
                     <div class="table-responsive">
@@ -34,7 +34,7 @@
                             <thead>
                             <tr>
                                 <th width="80%">
-                                    Bulk Sale ID
+                                    Sale ID
                                 </th>
                                 <th>
                                     Units
