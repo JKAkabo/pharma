@@ -12,6 +12,9 @@ class Product(models.Model):
     name = models.CharField(max_length=50)
     active_ingredients = models.TextField()
 
+    class Meta:
+        ordering = ('name',)
+
     def __str__(self):
         return self.name
 
@@ -24,6 +27,9 @@ class Stock(models.Model):
     units_left = models.PositiveIntegerField(default=0, editable=False)
     units_sold_value = models.DecimalField(max_digits=19, default=0.00, decimal_places=2, editable=False)
     units_left_value = models.DecimalField(max_digits=19, default=0.00, decimal_places=2, editable=False)
+
+    class Meta:
+        ordering = ('product__name',)
 
     def save(self, *args, **kwargs):
         self.units_sold_value = self.units_sold * self.unit_price
@@ -40,6 +46,9 @@ class GroupSale(models.Model):
     sale_count = models.PositiveIntegerField(default=0, editable=False)
     attendant = models.ForeignKey(Staff, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-timestamp',)
 
     def __str__(self):
         return str(self.id)

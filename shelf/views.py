@@ -2,10 +2,12 @@ from django.contrib.auth import get_user
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, View
+from django.views.generic import CreateView, View, ListView
+from rest_framework import viewsets
 
-from .models import GroupSale, Sale, Product
+from .models import GroupSale, Sale, Product, Stock
 from .forms import AddToStockFormSet, AddSaleFormSet, AddBranchForm, AddProductFormSet
+from .serializers import StockSerializer
 
 
 @login_required
@@ -139,3 +141,20 @@ def list_products(request):
     products = Product.objects.filter(branch=user.branch)
     context['products'] = products
     return render(request, 'shelf/list_products.html', context)
+
+
+@method_decorator(login_required, name='dispatch')
+class ListStocksView(ListView):
+    template_name = 'shelf/list_stock.html'
+    model = Product
+    context_object_name = 'products'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = get_user(self.request)
+        return context
+
+
+class StockViewSet(viewsets.ModelViewSet):
+    queryset = Stock.objects.all()
+    serializer_class = StockSerializer

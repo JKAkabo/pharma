@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import TemplateView
 
 from . import views
 
@@ -14,4 +15,6 @@ urlpatterns = [
     path('branch/add/', views.add_branch, name='add_branch'),
     path('product/', views.list_products, name='list_products'),
     path('product/add/', views.add_product, name='add_product'),
+
+    path('stock/', views.ListStocksView.as_view(), name='list_stocks'),
 ]

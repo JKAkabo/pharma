@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="btn-group float-right">
-                    <a href="#" class="btn btn-inverse-info">
+                    <a href="#" class="btn btn-inverse-info" id="print-receipt-btn">
                         <i class="mdi mdi-printer"></i>
                     </a>
                     <a href="{% url 'shelf:add_sale' %}" class="btn btn-inverse-info">
@@ -57,6 +57,13 @@
 {% endblock %}
 
 
+{% block scripts %}
+    <script>
+        $('#print-receipt-btn').click(function () {
+            window.print();
+        });
+    </script>
+{% endblock %}
 {% block sidebar_menu %}
     <li class="nav-item">
         <a class="nav-link" href="">
