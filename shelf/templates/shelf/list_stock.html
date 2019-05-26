@@ -6,9 +6,19 @@
 
 
 {% block body %}
+    <div class="row mb-3">
+        <div class="col-md-6 col-lg-3 mx-auto">
+            <input id="search-box" list="product-list" class="form-control">
+            <datalist id="product-list">
+                {% for product in products %}
+                    <option value="{{ product.name.lower }}"></option>
+                {% endfor %}
+            </datalist>
+        </div>
+    </div>
     <div class="row">
         {% for product in products %}
-            <div class="col-lg-6 grid-margin stretch-card">
+            <div class="col-lg-6 grid-margin stretch-card my-product-card">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title"><span class="display-4">{{ product.name }}</span></h4>
@@ -48,6 +58,24 @@
 
 
 {% block scripts %}
+    <script>
+        const searchBox = $('#search-box');
+        const productCards = $('.my-product-card');
+        $(searchBox).keyup(function (e) {
+            //if(e.keyCode === 13) {
+            e.preventDefault();
+            $(productCards).each(function (i) {
+                let productCard = productCards[i];
+                let productCardTitle = $($($(productCard).find('.card-title')).children()[0]).text();
+                if (productCardTitle.toLowerCase().includes($(searchBox).val().toLowerCase())) {
+                    $(productCard).show();
+                } else {
+                    $(productCard).hide();
+                }
+            })
+            //}
+        })
+    </script>
     {% for product in products %}
         <script>
             $.get('/api/stock/' + '{{ product.stock.id }}' + '/', function (data) {

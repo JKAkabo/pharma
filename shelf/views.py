@@ -126,7 +126,7 @@ def add_product(request):
                 new_product = form.save(commit=False)
                 new_product.branch = user.branch
                 new_product.save()
-                return redirect('shelf:list_products')
+            return redirect('shelf:list_products')
     else:
         formset = AddProductFormSet
         context['formset'] = formset
