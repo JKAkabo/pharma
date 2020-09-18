@@ -158,3 +158,37 @@ class ListStocksView(ListView):
 class StockViewSet(viewsets.ModelViewSet):
     queryset = Stock.objects.all()
     serializer_class = StockSerializer
+
+# upload image view
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy, reverse
+from django.views.generic import TemplateView
+from .forms import UploadForm
+
+# upload image
+class UploadImage(TemplateView):
+    form = UploadForm
+    template_name = 'shelf/avatar.html'
+
+    def post(self, request, *args, **kwargs):
+
+        form = UploadForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            obj = form.save()
+            return redirect('shelf:list_branches')
+
+        context = self.get_context_data(form=form)
+        return self.render_to_response(context)
+        
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)        
+
+# display image
+from django.views.generic import DetailView
+from .models import Upload
+
+class ImageDisplay(DetailView):
+    model = Upload
+    template_name = 'shelf/avatar.html'
+    context_object_name = 'emp'

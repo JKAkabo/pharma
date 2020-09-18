@@ -35,8 +35,8 @@
                     <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown"
                        aria-expanded="false">
                         <span class="profile-text">Hello, {{ user.get_short_name }}</span>
-                        <img class="img-xs rounded-circle" src="{% static 'pharma/images/faces/face1.jpg' %}" alt="Profile image">
-                    </a>
+                        <img class="img-xs rounded-circle" src="{{ emp.emp_image.url }}" alt="Profile image">
+                    </a>    
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                         <a class="dropdown-item p-0">
                             <div class="d-flex border-bottom">
@@ -59,6 +59,9 @@
                         </a>
                         <a class="dropdown-item">
                             Check Inbox
+                        </a>
+                        <a href="{% url 'shelf:avatar' %}" class="dropdown-item">
+                            Change Avatar
                         </a>
                         <a href="{% url 'accounts:logout' %}" class="dropdown-item">
                             Logout

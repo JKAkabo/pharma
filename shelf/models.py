@@ -91,3 +91,11 @@ def compute_after_group_sale(sender, instance, **kwargs):
 @receiver(models.signals.post_save, sender=Product)
 def create_stock_object(sender, instance, **kwargs):
     Stock.objects.create(product=instance)
+
+
+# image model
+class Upload(models.Model):
+    emp_image = models.ImageField(upload_to='upload/')
+
+    def __str__(self):
+        return str(self.emp_image)

@@ -68,3 +68,13 @@ class AddSaleForm(forms.ModelForm):
 AddSaleFormSet = formset_factory(AddSaleForm)
 AddToStockFormSet = formset_factory(AddToStockForm)
 AddProductFormSet = formset_factory(AddProductForm)
+
+# image upload form
+from django import forms
+from .models import Upload
+
+class UploadForm(forms.ModelForm):
+    class Meta:
+        model = Upload
+        fields = ['emp_image']
+        
