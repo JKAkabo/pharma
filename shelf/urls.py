@@ -15,14 +15,15 @@ urlpatterns = [
     path('sale/<uuid:group_sale_id>/receipt/', views.group_sale_receipt, name='group_sale_receipt'),
     path('group-sale/', views.list_group_sales, name='list_group_sales'),
     path('stock/add/', views.add_to_stock, name='add_to_stock'),
-    path('branch/<int:pk>/', views.list_branches, name='list_branches'),
+    path('branch/', views.list_branches, name='list_branches'),
     path('branch/', views.list_branches, name='list_branches'),
     path('branch/add/', views.add_branch, name='add_branch'),
     path('product/', views.list_products, name='list_products'),
     path('product/add/', views.add_product, name='add_product'),
+
+    
     path('avatar/', views.UploadImage.as_view(), name='avatar'),
-    path('stock/', views.ListStocksView.as_view(), name='list_stocks'),
-    path('displayImage/<int:pk>/', views.ImageDisplay, name='display_image'),
+    path('displayImage/', views.displayImage, name='displayImage'),
 ]
 if settings.DEBUG:
     urlpatterns += static(base.MEDIA_URL, document_root=base.MEDIA_ROOT)

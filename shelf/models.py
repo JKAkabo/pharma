@@ -95,7 +95,8 @@ def create_stock_object(sender, instance, **kwargs):
 
 # image model
 class Upload(models.Model):
-    emp_image = models.ImageField(upload_to='upload/')
+    image = models.ImageField(upload_to='upload/')
 
-    def __str__(self):
-        return str(self.emp_image)
+
+    # def __str__(self):
+    #     return str(self.image)
