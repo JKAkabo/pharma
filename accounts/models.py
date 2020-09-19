@@ -29,7 +29,7 @@ class Staff(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     phone = models.CharField(max_length=9)
 
-    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    branch = models.ForeignKey(Branch, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.get_full_name()

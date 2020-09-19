@@ -10,6 +10,14 @@ from .forms import AddToStockFormSet, AddSaleFormSet, AddBranchForm, AddProductF
 from .serializers import StockSerializer
 
 
+from django.http import HttpResponseRedirect, request
+from django.urls import reverse_lazy, reverse
+from django.views.generic import TemplateView
+from .forms import UploadForm
+
+from django.views.generic import DetailView
+from .models import Upload
+
 @login_required
 def list_group_sales(request):
     user = get_user(request)
@@ -62,6 +70,7 @@ def list_branches(request):
     branches = user.branch.pharmacy.branch_set.all()
     context['branches'] = branches
     return render(request, 'shelf/list_branches.html', context)
+
 
 
 @login_required
@@ -159,11 +168,6 @@ class StockViewSet(viewsets.ModelViewSet):
     queryset = Stock.objects.all()
     serializer_class = StockSerializer
 
-# upload image view
-from django.http import HttpResponseRedirect, request
-from django.urls import reverse_lazy, reverse
-from django.views.generic import TemplateView
-from .forms import UploadForm
 
 # upload(post) image
 class UploadImage(TemplateView):
@@ -185,11 +189,11 @@ class UploadImage(TemplateView):
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)        
 
+
 # display(get) image
-from django.views.generic import DetailView
-from .models import Upload
 
-
+@login_required
 def displayImage(request):
+
     upload_results = Upload.objects.get()
     return render(request, 'shelf/base.html', {'image': upload_results})
