@@ -175,7 +175,8 @@ class UploadImage(TemplateView):
         form = UploadForm(request.POST, request.FILES)
 
         if form.is_valid():
-            form.save()
+            upload_submit = Upload(image= form.cleaned_data['image'])
+            upload_submit.save() 
             return redirect('accounts:login')
 
         context = self.get_context_data(form=form)
@@ -190,7 +191,6 @@ from .models import Upload
 
 
 def displayImage(request):
-
-    if request.method == 'GET':
-        Images = Upload.objects.all()
-        return render(request, 'shelf/display.html', {'user_image': Images})
+    #image = Upload.objects.all()
+    upload_results = Upload.objects.get(pk=1)
+    return render(request, 'shelf/display.html', {'image': upload_results})

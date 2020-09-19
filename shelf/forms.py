@@ -77,5 +77,6 @@ class UploadForm(forms.ModelForm):
 
     class Meta:
         model = Upload
-        fields = ['image']
+        fields = [
+            'image']
         
