@@ -74,6 +74,7 @@ from django import forms
 from .models import Upload
 
 class UploadForm(forms.ModelForm):
+    images = Upload.objects.all()
 
     class Meta:
         model = Upload

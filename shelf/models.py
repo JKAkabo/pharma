@@ -95,9 +95,10 @@ def create_stock_object(sender, instance, **kwargs):
 
 # image model
 class Upload(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     image = models.ImageField(upload_to='upload/')
 
 
-    # def __str__(self):
-    #     return str(self.image)
+    def __str__(self):
+        return str(self.image)
+ 
