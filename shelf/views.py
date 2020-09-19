@@ -191,6 +191,5 @@ from .models import Upload
 
 
 def displayImage(request):
-    #image = Upload.objects.all()
     upload_results = Upload.objects.get()
-    return render(request, 'shelf/display.html', {'image': upload_results})
+    return render(request, 'shelf/base.html', {'image': upload_results})

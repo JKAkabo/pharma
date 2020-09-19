@@ -35,9 +35,7 @@
                     <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown"
                        aria-expanded="false">
                         <span class="profile-text">Hello, {{ user.get_short_name }}</span>
-                        {% for img in user_image %}
-                            <img class="img-xs rounded-circle" src="{{ user_image.image }}" alt="Profile image">
-                        {% endfor %}
+                        <img class="img-xs rounded-circle" src="/shelf/media/{{ image }}" alt="Profile image">
                     </a>    
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                         <a class="dropdown-item p-0">
@@ -87,7 +85,7 @@
                     <div class="nav-link">
                         <div class="user-wrapper">
                             <div class="profile-image">
-                                <img src="{% static 'pharma/images/faces/face1.jpg' %}" alt="profile image">
+                                <img class="img-xs rounded-circle" src="/shelf/media/{{ image }}" alt="Profile image">
                             </div>
                             <div class="text-wrapper">
                                 <p class="profile-name">{{ user.get_full_name }}</p>
@@ -99,14 +97,14 @@
                         </div>
                     </div>
                 </li>
-                {% block sidebar_menu %}{% endblock %}
             </ul>
         </nav>
 
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
-                {% block body %}{% endblock %}
+                {% block body %}
+                {% endblock %}
             </div>
             <!-- content-wrapper ends -->
             <!-- partial:../../partials/_footer.html -->
@@ -128,6 +126,48 @@
 <script src="{% static 'pharma/js/vendor.bundle.addons.js' %}"></script>
 <script src="{% static 'pharma/js/off-canvas.js' %}"></script>
 <script src="{% static 'pharma/js/misc.js' %}"></script>
-{% block scripts %}{% endblock %}
+{% block scripts %}
+{% endblock %}
+
+{% block sidebar_menu %}                
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            <i class="menu-icon mdi mdi-television"></i>
+                            <span class="menu-title">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'shelf:list_group_sales' %}">
+                            <i class="menu-icon mdi mdi-poll-box"></i>
+                            <span class="menu-title">Sales</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../pages/forms/basic_elements.html">
+                            <i class="menu-icon mdi mdi-chart-scatterplot-hexbin"></i>
+                            <span class="menu-title">Stocks</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'shelf:list_products' %}">
+                            <i class="menu-icon mdi mdi-archive"></i>
+                            <span class="menu-title">Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../pages/forms/basic_elements.html">
+                            <i class="menu-icon mdi mdi-account"></i>
+                            <span class="menu-title">Employees</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'shelf:list_branches' %}">
+                            <i class="menu-icon mdi mdi-store"></i>
+                            <span class="menu-title">Branches</span>
+                        </a>
+                    </li>
+{% endblock %}
+
+
 </body>
 </html>

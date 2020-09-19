@@ -50,42 +50,5 @@
         </div>
     </div>
 {% endblock %}
-
 {% block sidebar_menu %}
-    <li class="nav-item">
-        <a class="nav-link" href="">
-            <i class="menu-icon mdi mdi-television"></i>
-            <span class="menu-title">Dashboard</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'shelf:list_group_sales' %}">
-            <i class="menu-icon mdi mdi-poll-box"></i>
-            <span class="menu-title">Sales</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="../../pages/forms/basic_elements.html">
-            <i class="menu-icon mdi mdi-chart-scatterplot-hexbin"></i>
-            <span class="menu-title">Stocks</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'shelf:list_products' %}">
-            <i class="menu-icon mdi mdi-archive"></i>
-            <span class="menu-title">Products</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="../../pages/forms/basic_elements.html">
-            <i class="menu-icon mdi mdi-account"></i>
-            <span class="menu-title">Employees</span>
-        </a>
-    </li>
-    <li class="nav-item active">
-        <a class="nav-link" href="{% url 'shelf:list_branches' %}">
-            <i class="menu-icon mdi mdi-store"></i>
-            <span class="menu-title">Branches</span>
-        </a>
-    </li>
 {% endblock %}

@@ -115,7 +115,7 @@ STATIC_URL = '/static/'
 
 # Media storage
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'shelf/media')
 
 # Auth routing
 AUTH_USER_MODEL = 'accounts.Staff'

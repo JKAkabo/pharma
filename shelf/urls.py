@@ -16,10 +16,10 @@ urlpatterns = [
     path('group-sale/', views.list_group_sales, name='list_group_sales'),
     path('stock/add/', views.add_to_stock, name='add_to_stock'),
     path('branch/', views.list_branches, name='list_branches'),
-    path('branch/', views.list_branches, name='list_branches'),
     path('branch/add/', views.add_branch, name='add_branch'),
     path('product/', views.list_products, name='list_products'),
     path('product/add/', views.add_product, name='add_product'),
+    path('list_stocks/', views.ListStocksView.as_view(), name='list_stocks'),
 
     
     path('avatar/', views.UploadImage.as_view(), name='avatar'),
