@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import formset_factory, BaseModelFormSet
-from .models import Branch, Product, Stock, GroupSale, Sale
+from .models import Branch, Product, Stock, GroupSale, Sale, Upload
 
 
 class AddBranchForm(forms.ModelForm):
@@ -69,9 +69,7 @@ AddSaleFormSet = formset_factory(AddSaleForm)
 AddToStockFormSet = formset_factory(AddToStockForm)
 AddProductFormSet = formset_factory(AddProductForm)
 
-# image upload form
-from django import forms
-from .models import Upload
+
 
 class UploadForm(forms.ModelForm):
     images = Upload.objects.all()

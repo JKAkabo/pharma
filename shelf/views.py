@@ -11,8 +11,6 @@ from .forms import AddToStockFormSet, AddSaleFormSet, AddBranchForm, AddProductF
 from .serializers import StockSerializer
 
 
-upload_results = Upload.objects.get()
-
 @login_required
 def list_group_sales(request):
     user = get_user(request)
@@ -191,4 +189,5 @@ class UploadImage(TemplateView):
 @login_required
 def displayImage(request):
     
+    upload_results = Upload.objects.get()
     return render(request, 'shelf/add_branch.html', {'image': upload_results})
