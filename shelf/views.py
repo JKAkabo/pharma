@@ -1,22 +1,17 @@
 from django.contrib.auth import get_user
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from django.http import HttpResponseRedirect, request
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, View, ListView
+from django.views.generic import CreateView, View, ListView, TemplateView, DetailView
 from rest_framework import viewsets
 
-from .models import GroupSale, Sale, Product, Stock
-from .forms import AddToStockFormSet, AddSaleFormSet, AddBranchForm, AddProductFormSet
+from .models import GroupSale, Sale, Product, Stock, Upload
+from .forms import AddToStockFormSet, AddSaleFormSet, AddBranchForm, AddProductFormSet, UploadForm
 from .serializers import StockSerializer
 
 
-from django.http import HttpResponseRedirect, request
-from django.urls import reverse_lazy, reverse
-from django.views.generic import TemplateView
-from .forms import UploadForm
-
-from django.views.generic import DetailView
-from .models import Upload
+upload_results = Upload.objects.get()
 
 @login_required
 def list_group_sales(request):
@@ -69,6 +64,7 @@ def list_branches(request):
 
     branches = user.branch.pharmacy.branch_set.all()
     context['branches'] = branches
+
     return render(request, 'shelf/list_branches.html', context)
 
 
@@ -194,6 +190,5 @@ class UploadImage(TemplateView):
 
 @login_required
 def displayImage(request):
-
-    upload_results = Upload.objects.get()
-    return render(request, 'shelf/base.html', {'image': upload_results})
+    
+    return render(request, 'shelf/add_branch.html', {'image': upload_results})
