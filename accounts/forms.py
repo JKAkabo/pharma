@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from accounts.models import Branch, Pharmacy
+from accounts.models import Branch, Pharmacy, Staff
 from django.core.files.images import get_image_dimensions
 
 
@@ -23,7 +23,6 @@ class PharmacyRegistrationForm(forms.ModelForm):
                 'placeholder': 'Pharmacy Email',
             }),
         }
-
 
 class BranchRegistrationForm(forms.ModelForm):
     class Meta:
@@ -86,3 +85,10 @@ class StaffLoginForm(forms.Form):
         'class': 'form-control',
     }))
 
+class StaffPictureForm(forms.ModelForm):
+    class Meta:
+        model = Staff
+        fields = (
+            'profile_picture',
+        )
+ 

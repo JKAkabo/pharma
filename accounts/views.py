@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login as lin, logout as lout
 from django.shortcuts import render, redirect
-
-from .forms import BranchRegistrationForm, StaffRegistrationForm, StaffLoginForm, PharmacyRegistrationForm
+from .models import Staff
+from .forms import StaffPictureForm, BranchRegistrationForm, StaffRegistrationForm, StaffLoginForm, PharmacyRegistrationForm
 
 
 def register_pharmacy(request):
@@ -10,7 +10,8 @@ def register_pharmacy(request):
         pharmacy_registration_form = PharmacyRegistrationForm(data=request.POST, prefix='pharmacy')
         branch_registration_form = BranchRegistrationForm(data=request.POST, prefix='branch')
         staff_registration_form = StaffRegistrationForm(data=request.POST, prefix='staff')
-        if agree and pharmacy_registration_form.is_valid() and branch_registration_form.is_valid() and staff_registration_form.is_valid():
+        staff_picture_form = StaffPictureForm(data=request.POST, prefix='profile_picture')
+        if agree and pharmacy_registration_form.is_valid() and branch_registration_form.is_valid() and staff_registration_form.is_valid() and staff_picture_form.is_valid():
             new_pharmacy = pharmacy_registration_form.save()
 
             new_branch = branch_registration_form.save(commit=False)
@@ -22,12 +23,17 @@ def register_pharmacy(request):
             new_staff.branch = new_branch
             new_staff.set_password(password)
             new_staff.save()
+
+            #new_staff_picture = staff_picture_form.cleaned_data['profile_picture']
+            new_picture = staff_picture_form.save()
+
             return redirect('accounts:login')
         else:
             context = {
                 'branch_registration_form': branch_registration_form,
                 'pharmacy_registration_form': pharmacy_registration_form,
                 'staff_registration_form': staff_registration_form,
+                'staff_picture_form': staff_picture_form,
             }
             return render(request, 'accounts/register_pharmacy.html', context)
 
@@ -36,6 +42,7 @@ def register_pharmacy(request):
             'branch_registration_form': BranchRegistrationForm(prefix='branch'),
             'pharmacy_registration_form': PharmacyRegistrationForm(prefix='pharmacy'),
             'staff_registration_form': StaffRegistrationForm(prefix='staff'),
+            'staff_picture_form': StaffPictureForm(prefix='picture'),
         }
         return render(request, 'accounts/register_pharmacy.html', context)
 

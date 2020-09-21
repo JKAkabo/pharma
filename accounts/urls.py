@@ -1,4 +1,8 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+from pharma.settings import base
+
 
 from . import views
 
@@ -10,3 +14,5 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
 
 ]
+if settings.DEBUG:
+    urlpatterns += static(base.MEDIA_URL, document_root=base.MEDIA_ROOT)
