@@ -23,7 +23,6 @@ urlpatterns = [
 
     
     path('avatar/', views.upload_avatar.as_view(), name='avatar'),
-    path('displayImage/', views.displayImage, name='displayImage'),
 ]
 if settings.DEBUG:
     urlpatterns += static(base.MEDIA_URL, document_root=base.MEDIA_ROOT)

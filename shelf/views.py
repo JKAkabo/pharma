@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponseRedirect, request
@@ -9,7 +10,10 @@ from rest_framework import viewsets
 from .models import GroupSale, Sale, Product, Stock, UserProfile
 from .forms import AddToStockFormSet, AddSaleFormSet, AddBranchForm, AddProductFormSet, UserProfileForm
 from .serializers import StockSerializer
-from django.contrib import messages
+
+
+# display image
+upload_results = UserProfile.objects.get()
 
 
 @login_required
@@ -18,7 +22,10 @@ def list_group_sales(request):
     context = {'user': user}
 
     group_sales = GroupSale.objects.all()
-    context['group_sales'] = group_sales
+    context = {
+        'group_sales': group_sales,
+        'image': upload_results,
+    }
     return render(request, 'shelf/list_group_sales.html', context)
 
 
@@ -26,9 +33,13 @@ def list_group_sales(request):
 def list_sales(request, group_sale_id):
     user = get_user(request)
     context = {'user': user}
-
+    
+    
     group_sale = get_object_or_404(GroupSale, id=group_sale_id)
-    context['group_sale'] = group_sale
+    context = {
+        'group_sale': group_sale,
+        'image': upload_results,
+    }
     return render(request, 'shelf/list_sales.html', context)
 
 
@@ -48,24 +59,31 @@ def add_sale(request):
                 sale.save()
             return redirect('shelf:group_sale_receipt', group_sale_id=group_sale.id)
         else:
-            context['formset'] = formset
+            context = {
+                'formset': formset,
+                'image': upload_results,
+            }
             return render(request, 'shelf/add_sale.html', context)
     else:
         formset = AddSaleFormSet
-        context['formset'] = formset
+        context = {
+                'formset': formset,
+                'image': upload_results,
+                }
         return render(request, 'shelf/add_sale.html', context)
 
 
 @login_required
 def list_branches(request):
-    displayImage(request)
 
     user = get_user(request)
     context = {'user': user}
 
     branches = user.branch.pharmacy.branch_set.all()
-    context['branches'] = branches
-
+    context = {
+        'branches': branches,
+        'image': upload_results,
+            }
     return render(request, 'shelf/list_branches.html', context)
 
 
@@ -85,7 +103,10 @@ def add_branch(request):
             return redirect('shelf:list_branches')
     else:
         form = AddBranchForm
-        context['form'] = form
+        context = {
+            'form': form,
+            'image': upload_results,
+            }
         return render(request, 'shelf/add_branch.html', context)
 
 
@@ -95,7 +116,13 @@ def group_sale_receipt(request, group_sale_id):
     context = {'user': user}
 
     group_sale = get_object_or_404(GroupSale, id=group_sale_id)
-    context['group_sale'] = group_sale
+    #group_sale = GroupSale.objects.all()
+    
+    context = {
+        'group_sale': group_sale,
+        'image': upload_results,
+            }
+
     return render(request, 'shelf/group_sale_receipt.html', context)
 
 
@@ -113,11 +140,17 @@ def add_to_stock(request):
                 product.stock.units_left += units
                 product.stock.save()
         else:
-            context['formset'] = formset
+            context = {
+                'formset': formset,
+                'image': upload_results,
+                }
             return render(request, 'shelf/add_to_stock.html', context)
     else:
         formset = AddToStockFormSet
-        context['formset'] = formset
+        context = {
+                'formset': formset,
+                'image': upload_results,
+                }
         return render(request, 'shelf/add_to_stock.html', context)
 
 
@@ -136,7 +169,10 @@ def add_product(request):
             return redirect('shelf:list_products')
     else:
         formset = AddProductFormSet
-        context['formset'] = formset
+        context = {
+                'formset': formset,
+                'image': upload_results,
+                }
         return render(request, 'shelf/add_product.html', context)
 
 
@@ -145,11 +181,16 @@ def list_products(request):
     user = get_user(request)
     context = {'user': user}
 
+    
     products = Product.objects.filter(branch=user.branch)
-    context['products'] = products
+    context = {
+        'products': products,
+        'image': upload_results,
+        }  
     return render(request, 'shelf/list_products.html', context)
 
-    displayImage(request)
+    
+
 
 
 @method_decorator(login_required, name='dispatch')
@@ -183,16 +224,10 @@ class upload_avatar(TemplateView):
             upload_submit.save() 
             return redirect('accounts:login')
 
+            
+
         context = self.get_context_data(form=form)
         return self.render_to_response(context)
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)        
-
-
-# display image
-@login_required
-def displayImage(request):
-    
-    upload_results = UserProfile.objects.get()
-    return render(request, 'shelf/add_branch.html', {'image': upload_results})
