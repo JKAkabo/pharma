@@ -6,9 +6,10 @@ from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, View, ListView, TemplateView, DetailView
 from rest_framework import viewsets
 
-from .models import GroupSale, Sale, Product, Stock, Upload
-from .forms import AddToStockFormSet, AddSaleFormSet, AddBranchForm, AddProductFormSet, UploadForm
+from .models import GroupSale, Sale, Product, Stock, UserProfile
+from .forms import AddToStockFormSet, AddSaleFormSet, AddBranchForm, AddProductFormSet, UserProfileForm
 from .serializers import StockSerializer
+from django.contrib import messages
 
 
 @login_required
@@ -57,6 +58,8 @@ def add_sale(request):
 
 @login_required
 def list_branches(request):
+    displayImage(request)
+
     user = get_user(request)
     context = {'user': user}
 
@@ -64,6 +67,7 @@ def list_branches(request):
     context['branches'] = branches
 
     return render(request, 'shelf/list_branches.html', context)
+
 
 
 
@@ -145,6 +149,8 @@ def list_products(request):
     context['products'] = products
     return render(request, 'shelf/list_products.html', context)
 
+    displayImage(request)
+
 
 @method_decorator(login_required, name='dispatch')
 class ListStocksView(ListView):
@@ -161,19 +167,19 @@ class ListStocksView(ListView):
 class StockViewSet(viewsets.ModelViewSet):
     queryset = Stock.objects.all()
     serializer_class = StockSerializer
-
+    
 
 # upload(post) image
-class UploadImage(TemplateView):
-    form = UploadForm
+class upload_avatar(TemplateView):
+    form = UserProfileForm
     template_name = 'shelf/avatar.html'
 
     def post(self, request, *args, **kwargs):
 
-        form = UploadForm(request.POST, request.FILES)
+        form = UserProfileForm(request.POST, request.FILES)
 
         if form.is_valid():
-            upload_submit = Upload(image= form.cleaned_data['image'])
+            upload_submit = UserProfile(avatar = form.cleaned_data['avatar'])
             upload_submit.save() 
             return redirect('accounts:login')
 
@@ -184,10 +190,9 @@ class UploadImage(TemplateView):
         return self.post(request, *args, **kwargs)        
 
 
-# display(get) image
-
+# display image
 @login_required
 def displayImage(request):
     
-    upload_results = Upload.objects.get()
+    upload_results = UserProfile.objects.get()
     return render(request, 'shelf/add_branch.html', {'image': upload_results})

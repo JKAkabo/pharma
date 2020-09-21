@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from accounts.models import Branch, Pharmacy
+from django.core.files.images import get_image_dimensions
+
 
 
 class PharmacyRegistrationForm(forms.ModelForm):
@@ -83,3 +85,4 @@ class StaffLoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(attrs={
         'class': 'form-control',
     }))
+

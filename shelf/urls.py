@@ -22,7 +22,7 @@ urlpatterns = [
     path('list_stocks/', views.ListStocksView.as_view(), name='list_stocks'),
 
     
-    path('avatar/', views.UploadImage.as_view(), name='avatar'),
+    path('avatar/', views.upload_avatar.as_view(), name='avatar'),
     path('displayImage/', views.displayImage, name='displayImage'),
 ]
 if settings.DEBUG:
