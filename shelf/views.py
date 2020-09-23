@@ -13,7 +13,7 @@ from .serializers import StockSerializer
 
 
 # display image
-upload_results = UserProfile.objects.get(pk=id)
+upload_results = UserProfile.objects.get()
 
 
 @login_required
