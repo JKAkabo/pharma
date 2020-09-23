@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from accounts.models import Branch, Pharmacy, Staff
+from accounts.models import Branch, Pharmacy, UserImage
 from django.core.files.images import get_image_dimensions
 
 
@@ -85,10 +85,44 @@ class StaffLoginForm(forms.Form):
         'class': 'form-control',
     }))
 
-class StaffPictureForm(forms.ModelForm):
+class UserImageForm(forms.ModelForm):
     class Meta:
-        model = Staff
+        model = UserImage
         fields = (
-            'profile_picture',
+            'user',
+            'profile_pic',
         )
+
+        def clean_avatar(self):
+            profile_pic = self.cleaned_data['profile_pic']
+
+            try:
+                w, h = get_image_dimensions(profile_pic)
+
+                #validate dimensions
+                max_width = max_height = 100
+                if w > max_width or h > max_height:
+                    raise forms.ValidationError(
+                        u'Please use an image that is '
+                        '%s x %s pixels or smaller.' % (max_width, max_height))
+
+                #validate content type
+                main, sub = profile_pic.content_type.split('/')
+                if not (main == 'image' and sub in ['jpeg', 'pjpeg', 'gif', 'png']):
+                    raise forms.ValidationError(u'Please use a JPEG, '
+                        'GIF or PNG image.')
+
+                #validate file size
+                if len(profile_pic) > (20 * 1024):
+                    raise forms.ValidationError(
+                        u'Avatar file size may not exceed 20k.')
+
+            except AttributeError:
+                """
+                Handles case when we are updating the user profile
+                and do not supply a new avatar
+                """
+                pass
+
+            return profile_pic    
  

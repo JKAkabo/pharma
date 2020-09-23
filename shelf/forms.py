@@ -73,13 +73,13 @@ AddProductFormSet = formset_factory(AddProductForm)
 
 
 class UserProfileForm(forms.ModelForm):
-    
     class Meta:
         model = UserProfile
         fields = (
             'user',
             'avatar',
         )
+
     def clean_avatar(self):
         avatar = self.cleaned_data['avatar']
 

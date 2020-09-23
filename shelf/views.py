@@ -13,7 +13,7 @@ from .serializers import StockSerializer
 
 
 # display image
-upload_results = UserProfile.objects.get()
+upload_results = UserProfile.objects.get(pk=id)
 
 
 @login_required
@@ -75,7 +75,6 @@ def add_sale(request):
 
 @login_required
 def list_branches(request):
-
     user = get_user(request)
     context = {'user': user}
 
@@ -201,7 +200,11 @@ class ListStocksView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user'] = get_user(self.request)
+        context = {
+            'user': get_user(self.request),
+            'image': upload_results,
+        }
+        #context['user'] = get_user(self.request)
         return context
 
 
@@ -212,6 +215,7 @@ class StockViewSet(viewsets.ModelViewSet):
 
 # upload(post) image
 class upload_avatar(TemplateView):
+
     form = UserProfileForm
     template_name = 'shelf/avatar.html'
 
