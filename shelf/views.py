@@ -7,13 +7,9 @@ from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, View, ListView, TemplateView, DetailView
 from rest_framework import viewsets
 
-from .models import GroupSale, Sale, Product, Stock, UserProfile
-from .forms import AddToStockFormSet, AddSaleFormSet, AddBranchForm, AddProductFormSet, UserProfileForm
+from .models import GroupSale, Sale, Product, Stock
+from .forms import AddToStockFormSet, AddSaleFormSet, AddBranchForm, AddProductFormSet
 from .serializers import StockSerializer
-
-
-# display image
-upload_results = UserProfile.objects.get()
 
 
 @login_required
@@ -24,7 +20,6 @@ def list_group_sales(request):
     group_sales = GroupSale.objects.all()
     context = {
         'group_sales': group_sales,
-        'image': upload_results,
     }
     return render(request, 'shelf/list_group_sales.html', context)
 
@@ -34,11 +29,9 @@ def list_sales(request, group_sale_id):
     user = get_user(request)
     context = {'user': user}
     
-    
     group_sale = get_object_or_404(GroupSale, id=group_sale_id)
     context = {
         'group_sale': group_sale,
-        'image': upload_results,
     }
     return render(request, 'shelf/list_sales.html', context)
 
@@ -61,14 +54,12 @@ def add_sale(request):
         else:
             context = {
                 'formset': formset,
-                'image': upload_results,
             }
             return render(request, 'shelf/add_sale.html', context)
     else:
         formset = AddSaleFormSet
         context = {
                 'formset': formset,
-                'image': upload_results,
                 }
         return render(request, 'shelf/add_sale.html', context)
 
@@ -81,11 +72,8 @@ def list_branches(request):
     branches = user.branch.pharmacy.branch_set.all()
     context = {
         'branches': branches,
-        'image': upload_results,
             }
     return render(request, 'shelf/list_branches.html', context)
-
-
 
 
 @login_required
@@ -104,7 +92,6 @@ def add_branch(request):
         form = AddBranchForm
         context = {
             'form': form,
-            'image': upload_results,
             }
         return render(request, 'shelf/add_branch.html', context)
 
@@ -115,11 +102,9 @@ def group_sale_receipt(request, group_sale_id):
     context = {'user': user}
 
     group_sale = get_object_or_404(GroupSale, id=group_sale_id)
-    #group_sale = GroupSale.objects.all()
-    
+
     context = {
         'group_sale': group_sale,
-        'image': upload_results,
             }
 
     return render(request, 'shelf/group_sale_receipt.html', context)
@@ -141,14 +126,12 @@ def add_to_stock(request):
         else:
             context = {
                 'formset': formset,
-                'image': upload_results,
                 }
             return render(request, 'shelf/add_to_stock.html', context)
     else:
         formset = AddToStockFormSet
         context = {
                 'formset': formset,
-                'image': upload_results,
                 }
         return render(request, 'shelf/add_to_stock.html', context)
 
@@ -170,7 +153,6 @@ def add_product(request):
         formset = AddProductFormSet
         context = {
                 'formset': formset,
-                'image': upload_results,
                 }
         return render(request, 'shelf/add_product.html', context)
 
@@ -184,12 +166,8 @@ def list_products(request):
     products = Product.objects.filter(branch=user.branch)
     context = {
         'products': products,
-        'image': upload_results,
         }  
     return render(request, 'shelf/list_products.html', context)
-
-    
-
 
 
 @method_decorator(login_required, name='dispatch')
@@ -202,9 +180,7 @@ class ListStocksView(ListView):
         context = super().get_context_data(**kwargs)
         context = {
             'user': get_user(self.request),
-            'image': upload_results,
         }
-        #context['user'] = get_user(self.request)
         return context
 
 
@@ -213,25 +189,3 @@ class StockViewSet(viewsets.ModelViewSet):
     serializer_class = StockSerializer
     
 
-# upload(post) image
-class upload_avatar(TemplateView):
-
-    form = UserProfileForm
-    template_name = 'shelf/avatar.html'
-
-    def post(self, request, *args, **kwargs):
-
-        form = UserProfileForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            upload_submit = UserProfile(avatar = form.cleaned_data['avatar'])
-            upload_submit.save() 
-            return redirect('accounts:login')
-
-            
-
-        context = self.get_context_data(form=form)
-        return self.render_to_response(context)
-
-    def get(self, request, *args, **kwargs):
-        return self.post(request, *args, **kwargs)        

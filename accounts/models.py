@@ -1,13 +1,6 @@
 import uuid
-
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from pharma.settings.base import AUTH_USER_MODEL
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
-
-
 
 class Pharmacy(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -32,24 +25,16 @@ class Branch(models.Model):
 
 class Staff(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    phone = models.CharField(max_length=9)
+    phone = models.CharField(max_length=10)
 
     branch = models.ForeignKey(Branch, null=True, on_delete=models.CASCADE)
 
-    #profile_pic = models.ImageField(upload_to='upload/', blank=True)
+    profile_pic = models.ImageField(upload_to='upload/')
 
     def __str__(self):
         return self.get_full_name()
 
-class UserImage(models.Model):
-    user = models.OneToOneField(AUTH_USER_MODEL, on_delete=models.CASCADE )
-    profile_pic = models.ImageField(upload_to='upload/', blank=True)
 
-# @receiver(post_save, sender=AUTH_USER_MODEL)
-# def create_profile(sender, instance, created, **kwargs):
-#     if created:
-#         UserImage.objects.create(user=instance)
 
-# @receiver(post_save, sender=AUTH_USER_MODEL)
-# def save_profile(sender, instance, **kwargs):
-#     instance.profile_pic.save()        
+
+

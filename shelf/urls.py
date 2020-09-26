@@ -20,9 +20,6 @@ urlpatterns = [
     path('product/', views.list_products, name='list_products'),
     path('product/add/', views.add_product, name='add_product'),
     path('list_stocks/', views.ListStocksView.as_view(), name='list_stocks'),
-
-    
-    path('avatar/', views.upload_avatar.as_view(), name='avatar'),
 ]
 if settings.DEBUG:
     urlpatterns += static(base.MEDIA_URL, document_root=base.MEDIA_ROOT)

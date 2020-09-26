@@ -4,7 +4,7 @@ from django.db import models
 from django.dispatch import receiver
 
 from accounts.models import Branch, Staff
-from pharma.settings.base import AUTH_USER_MODEL
+
 
 class Product(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -49,7 +49,6 @@ class GroupSale(models.Model):
 
     class Meta:
         ordering = ('-timestamp',)
-        
 
     def __str__(self):
         return str(self.id)
@@ -94,11 +93,3 @@ def create_stock_object(sender, instance, **kwargs):
     Stock.objects.create(product=instance)
 
 
-class UserProfile(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.OneToOneField(AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, unique=True) 
-    avatar = models.ImageField(upload_to='upload/')
-
-    def __str__(self):
-        return str(self.avatar)
-    

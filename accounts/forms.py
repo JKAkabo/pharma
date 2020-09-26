@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from accounts.models import Branch, Pharmacy, UserImage
+from accounts.models import Branch, Pharmacy
 from django.core.files.images import get_image_dimensions
-
 
 
 class PharmacyRegistrationForm(forms.ModelForm):
@@ -23,6 +22,7 @@ class PharmacyRegistrationForm(forms.ModelForm):
                 'placeholder': 'Pharmacy Email',
             }),
         }
+
 
 class BranchRegistrationForm(forms.ModelForm):
     class Meta:
@@ -48,6 +48,8 @@ class StaffRegistrationForm(forms.ModelForm):
             'username',
             'email',
             'password',
+            'profile_pic',
+            'phone',
         )
         widgets = {
             'first_name': forms.TextInput(attrs={
@@ -72,26 +74,8 @@ class StaffRegistrationForm(forms.ModelForm):
             'password': forms.PasswordInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Password',
-            })
+            }),
         }
-
-
-class StaffLoginForm(forms.Form):
-    username = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control',
-        'autocomplete': 'off',
-    }))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'class': 'form-control',
-    }))
-
-class UserImageForm(forms.ModelForm):
-    class Meta:
-        model = UserImage
-        fields = (
-            'user',
-            'profile_pic',
-        )
 
         def clean_avatar(self):
             profile_pic = self.cleaned_data['profile_pic']
@@ -99,20 +83,21 @@ class UserImageForm(forms.ModelForm):
             try:
                 w, h = get_image_dimensions(profile_pic)
 
-                #validate dimensions
+                # validate dimensions
                 max_width = max_height = 100
                 if w > max_width or h > max_height:
                     raise forms.ValidationError(
                         u'Please use an image that is '
                         '%s x %s pixels or smaller.' % (max_width, max_height))
 
-                #validate content type
+                # validate content type
+
                 main, sub = profile_pic.content_type.split('/')
                 if not (main == 'image' and sub in ['jpeg', 'pjpeg', 'gif', 'png']):
                     raise forms.ValidationError(u'Please use a JPEG, '
-                        'GIF or PNG image.')
+                                                'GIF or PNG image.')
 
-                #validate file size
+                # validate file size
                 if len(profile_pic) > (20 * 1024):
                     raise forms.ValidationError(
                         u'Avatar file size may not exceed 20k.')
@@ -124,5 +109,14 @@ class UserImageForm(forms.ModelForm):
                 """
                 pass
 
-            return profile_pic    
- 
+            return profile_pic
+
+
+class StaffLoginForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'autocomplete': 'off',
+    }))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+    }))
