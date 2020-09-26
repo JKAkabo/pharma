@@ -1,8 +1,10 @@
 from django.contrib.auth import get_user
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from django.http import HttpResponseRedirect, request
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, View, ListView
+from django.views.generic import CreateView, View, ListView, TemplateView, DetailView
 from rest_framework import viewsets
 
 from .models import GroupSale, Sale, Product, Stock
@@ -16,7 +18,9 @@ def list_group_sales(request):
     context = {'user': user}
 
     group_sales = GroupSale.objects.all()
-    context['group_sales'] = group_sales
+    context = {
+        'group_sales': group_sales,
+    }
     return render(request, 'shelf/list_group_sales.html', context)
 
 
@@ -24,9 +28,11 @@ def list_group_sales(request):
 def list_sales(request, group_sale_id):
     user = get_user(request)
     context = {'user': user}
-
+    
     group_sale = get_object_or_404(GroupSale, id=group_sale_id)
-    context['group_sale'] = group_sale
+    context = {
+        'group_sale': group_sale,
+    }
     return render(request, 'shelf/list_sales.html', context)
 
 
@@ -46,11 +52,15 @@ def add_sale(request):
                 sale.save()
             return redirect('shelf:group_sale_receipt', group_sale_id=group_sale.id)
         else:
-            context['formset'] = formset
+            context = {
+                'formset': formset,
+            }
             return render(request, 'shelf/add_sale.html', context)
     else:
         formset = AddSaleFormSet
-        context['formset'] = formset
+        context = {
+                'formset': formset,
+                }
         return render(request, 'shelf/add_sale.html', context)
 
 
@@ -60,7 +70,9 @@ def list_branches(request):
     context = {'user': user}
 
     branches = user.branch.pharmacy.branch_set.all()
-    context['branches'] = branches
+    context = {
+        'branches': branches,
+            }
     return render(request, 'shelf/list_branches.html', context)
 
 
@@ -78,7 +90,9 @@ def add_branch(request):
             return redirect('shelf:list_branches')
     else:
         form = AddBranchForm
-        context['form'] = form
+        context = {
+            'form': form,
+            }
         return render(request, 'shelf/add_branch.html', context)
 
 
@@ -88,7 +102,11 @@ def group_sale_receipt(request, group_sale_id):
     context = {'user': user}
 
     group_sale = get_object_or_404(GroupSale, id=group_sale_id)
-    context['group_sale'] = group_sale
+
+    context = {
+        'group_sale': group_sale,
+            }
+
     return render(request, 'shelf/group_sale_receipt.html', context)
 
 
@@ -106,11 +124,15 @@ def add_to_stock(request):
                 product.stock.units_left += units
                 product.stock.save()
         else:
-            context['formset'] = formset
+            context = {
+                'formset': formset,
+                }
             return render(request, 'shelf/add_to_stock.html', context)
     else:
         formset = AddToStockFormSet
-        context['formset'] = formset
+        context = {
+                'formset': formset,
+                }
         return render(request, 'shelf/add_to_stock.html', context)
 
 
@@ -129,7 +151,9 @@ def add_product(request):
             return redirect('shelf:list_products')
     else:
         formset = AddProductFormSet
-        context['formset'] = formset
+        context = {
+                'formset': formset,
+                }
         return render(request, 'shelf/add_product.html', context)
 
 
@@ -138,8 +162,11 @@ def list_products(request):
     user = get_user(request)
     context = {'user': user}
 
+    
     products = Product.objects.filter(branch=user.branch)
-    context['products'] = products
+    context = {
+        'products': products,
+        }  
     return render(request, 'shelf/list_products.html', context)
 
 
@@ -151,10 +178,14 @@ class ListStocksView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user'] = get_user(self.request)
+        context = {
+            'user': get_user(self.request),
+        }
         return context
 
 
 class StockViewSet(viewsets.ModelViewSet):
     queryset = Stock.objects.all()
     serializer_class = StockSerializer
+    
+

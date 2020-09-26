@@ -2,7 +2,7 @@
 {% load static %}
 
 
-{% block title %}Login{% endblock %}
+{% block title %}Change Avatar{% endblock %}
 
 {% block body %}
     <div class="container-scroller">
@@ -11,22 +11,22 @@
                 <div class="row w-100">
                     <div class="col-lg-4 mx-auto">
                         <div class="auto-form-wrapper">
-                            <form action="" method="post">
+                            <form action="" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
-                                <div class="text-danger">
-                                    {{ login_form.non_field_errors }}
+                                <div class="row">
+                                    <div class="col-md-6 grid-margin stretch-card">
+                                        <div class="">
+                                            <div class="">
+                                                <h4 class="center-block">Change Avatar</h4>
+                                                {{ form.as_p }}
+                                                <button class="btn btn-primary submit-btn btn-block" type="submit" >Submit</button>                                                
+                                            </div>
+                                            <div class="form-group">
+                                            </div>                                            
+                                        </div>
+                                    </div>                                           
                                 </div>
-                                {% for field in login_form %}
-                                    <div class="form-group">
-                                        {{ field.label_tag }}
-                                        {{ field }}
-                                        {{ field.errors }}
-                                    </div>
-                                {% endfor %}    
 
-                                <div class="form-group">
-                                    <button class="btn btn-primary submit-btn btn-block">Login</button>
-                                </div>
                                 <div class="form-group d-flex justify-content-between">
                                     <a href="#" class="text-small forgot-password text-black">Forgot Password</a>
                                 </div>
@@ -48,7 +48,7 @@
                                 <a href="#">Terms</a>
                             </li>
                         </ul>
-                        <p class="footer-text text-center">Copyright © 2020 PharmaNet. All rights reserved.</p>
+                        <p class="footer-text text-center">Copyright © 2018 PharmaNet. All rights reserved.</p>
                     </div>
                 </div>
             </div>

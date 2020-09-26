@@ -14,6 +14,7 @@ django-heroku = "*"
 whitenoise = "*"
 channels-redis = "*"
 django-cors-headers = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.6"

@@ -1,5 +1,9 @@
 from django.urls import path
 from django.views.generic import TemplateView
+from pharma.settings import base
+from shelf.views import StockViewSet
+from django.conf import settings
+from django.conf.urls.static import static
 
 from . import views
 
@@ -15,6 +19,7 @@ urlpatterns = [
     path('branch/add/', views.add_branch, name='add_branch'),
     path('product/', views.list_products, name='list_products'),
     path('product/add/', views.add_product, name='add_product'),
-
-    path('stock/', views.ListStocksView.as_view(), name='list_stocks'),
+    path('list_stocks/', views.ListStocksView.as_view(), name='list_stocks'),
 ]
+if settings.DEBUG:
+    urlpatterns += static(base.MEDIA_URL, document_root=base.MEDIA_ROOT)

@@ -1,8 +1,6 @@
 import uuid
-
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
 
 class Pharmacy(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -27,10 +25,16 @@ class Branch(models.Model):
 
 class Staff(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    phone = models.CharField(max_length=9)
+    phone = models.CharField(max_length=10)
 
-    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    branch = models.ForeignKey(Branch, null=True, on_delete=models.CASCADE)
+
+    profile_pic = models.ImageField(upload_to='upload/')
 
     def __str__(self):
         return self.get_full_name()
+
+
+
+
 

@@ -68,3 +68,4 @@ class AddSaleForm(forms.ModelForm):
 AddSaleFormSet = formset_factory(AddSaleForm)
 AddToStockFormSet = formset_factory(AddToStockForm)
 AddProductFormSet = formset_factory(AddProductForm)
+

@@ -91,3 +91,5 @@ def compute_after_group_sale(sender, instance, **kwargs):
 @receiver(models.signals.post_save, sender=Product)
 def create_stock_object(sender, instance, **kwargs):
     Stock.objects.create(product=instance)
+
+

@@ -1,6 +1,9 @@
 {% extends 'accounts/base.html' %}
 {% load static %}
 
+
+{% block title %}Register{% endblock %}
+
 {% block body %}
     <div class="container-scroller">
         <div class="container-fluid page-body-wrapper full-page-wrapper auth-page">
@@ -9,7 +12,7 @@
                     <div class="col-lg-8 mx-auto">
                         <h2 class="text-center mb-4">Register</h2>
                         <div class="auto-form-wrapper">
-                            <form action="" method="post">
+                            <form action="" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-md-6 d-flex align-items-stretch grid-margin">
@@ -48,6 +51,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                        
                                     <div class="col-md-6 grid-margin stretch-card">
                                         <div class="card">
                                             <div class="card-body">
@@ -66,7 +70,6 @@
                                     </div>
                                 </div>
 
-
                                 <div class="form-group d-flex justify-content-center">
                                     <div class="form-check form-check-flat mt-0">
                                         <label class="form-check-label">
@@ -76,7 +79,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-primary submit-btn btn-block">Register</button>
+                                    <button class="btn btn-primary submit-btn btn-block" type="submit" >Register</button>
                                 </div>
                                 <div class="text-block text-center my-3">
                                     <span class="text-small font-weight-semibold">Already have and account ?</span>
